@@ -1,27 +1,27 @@
 [project]
 name = "todoapp"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
+description = ""
 authors = [
-    { name = "Joonatan Paalanen", email = "joonatan.paalanen@helsinki.fi" }
+    {name = "Joonatan Paalanen",email = "joonatan.paalanen@helsinki.fi"}
 ]
-requires-python = ">=3.14"
+license = {}
+requires-python = ">=3.12"
 dependencies = [
-    "flask>=3.1.3",
-    "robotframework>=7.5.1",
-    "robotframework-browser>=21.0.0",
+    "flask (>=3.1.2,<4.0.0)",
+    "flask-sqlalchemy (>=3.1.1,<4.0.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)",
+    "getenv (>=0.2.0,<0.3.0)",
+    "requests (>=2.32.5,<3.0.0)"
 ]
-
-[project.scripts]
-todoapp = "todoapp:main"
-
-[build-system]
-requires = ["uv_build>=0.13.6,<0.14.0"]
-build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
-    "pylint>=4.1.3",
-    "pytest>=9.2.0",
+    "robotframework (>=7.3.2,<8.0.0)",
+    "robotframework-browser (>=20.5.0)",
+    "robotframework-browser-batteries (>=20.5.0)",
+    "pytest (>=8.4.2,<10.0.0)"
 ]
+
+[tool.uv]
+package = false
