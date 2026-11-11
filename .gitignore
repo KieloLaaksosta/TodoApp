@@ -12,5 +12,3 @@ report.html
 possu.sh
 secret.env
 playwright-log.txt
-
-.vscode
