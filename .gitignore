@@ -1,23 +1,14 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
-
-# Virtual environments
 .venv
-
-# Testaus ja kattavuus
-.pytest_cache/
-.coverage
-htmlcov/
-coverage.xml
-
-# Robot Framework
-output.xml
+.env
+__pycache__
+*.db
+instance/
+*.log
 log.html
+output.xml
 report.html
-browser/
+*.png
+!misc/*.png
+possu.sh
+secret.env
 playwright-log.txt
-
-# Editorit ja käyttöjärjestelmä
-.vscode
-.DS_Store
