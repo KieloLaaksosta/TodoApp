@@ -1,0 +1,4 @@
+CREATE TABLE latex_references (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  content TEXT NOT NULL
+)
