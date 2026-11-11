@@ -21,5 +21,9 @@ jobs:
         run: uv run pytest src/tests
       - name: Install Playwright browser
         run: uv run rfbrowser install --with-deps chromium
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
       - name: Run robot tests
         run: bash run_robot_tests.sh
