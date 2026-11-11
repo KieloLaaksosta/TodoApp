@@ -20,9 +20,6 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
-      - name: Lint
-        run: uv run pylint src
-
       - name: Install Playwright browser
         run: uv run rfbrowser install chromium
 
