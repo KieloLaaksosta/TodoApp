@@ -1,4 +1,7 @@
 CREATE TABLE latex_references (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  content TEXT NOT NULL
+  ref_type TEXT NOT NULL,
+  title TEXT NOT NULL,
+  author TEXT,
+  year INTEGER
 )
