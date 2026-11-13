@@ -25,14 +25,14 @@
         <th>Year</th>
         <th>Publisher</th>
       </tr>
-      {% for reference in references %}
+      {% for ref in references %}
       <tr>
-        <td>{{ reference.key }}</td>
-        <td>{{ reference.title }}</td>
-        <td>{{ reference.author }}</td>
-        <td>{{ reference.type }}</td>
-        <td>{{ reference.year }}</td>
-        <td>{{ reference.publisher }}</td>
+        <td>{{ ref.key }}</td>
+        <td>{{ ref.title }}</td>
+        <td>{{ ref.author }}</td>
+        <td>{{ ref.type }}</td>
+        <td>{{ ref.year }}</td>
+        <td>{{ ref.publisher }}</td>
       </tr>
       {% endfor %}
     </table>
