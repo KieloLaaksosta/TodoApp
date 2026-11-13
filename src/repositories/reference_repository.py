@@ -11,23 +11,16 @@ def get_references():
     references = result.fetchall()
     return [Reference(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5]) for ref in references]
 
-def add_reference(reference_type,title,author,year,publisher):
+def add_reference(bibtex_key, reference_type, title, author, year, publisher):
     sql=text("""
-            INSERT INTO latex_references (reference_type,title,author,year,publisher)
-            VALUE (:reference_type, :title, :author, :year, :publisher)
+            INSERT INTO latex_references (bibtex_key,reference_type,title,author,year,publisher)
+            VALUES (:bibtext_key,:reference_type, :title, :author, :year, :publisher)
             """)
-    db.session.execute(sql,  {"reference_type":reference_type, 
-                              "title":title,
-                              "author":author, 
-                              "year":year, 
-                              "publisher":publisher})
+    db.session.execute(sql,  {
+                            "bibtex_key":bibtex_key,
+                            "reference_type":reference_type, 
+                            "title":title,
+                            "author":author, 
+                            "year":year, 
+                            "publisher":publisher})
     db.session.commit()
-
-
-add_reference(
-        "book",
-        "Introduction to Algorithms",
-        "Thomas H. Cormen",
-        2022,
-        "MIT Press"
-    )
