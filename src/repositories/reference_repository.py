@@ -14,6 +14,9 @@ def get_references():
     references = result.fetchall()
     return [Reference(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5]) for ref in references]
 
+def none_if_empty(string: str) -> str:
+    return string if string else None
+
 def add_reference(bibtex_key : str, reference_type : str, title : str, author : str, year_str : str, publisher : str) -> None:
     bibtex_key = bibtex_key.strip()
     reference_type = reference_type.strip()
