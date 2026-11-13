@@ -21,7 +21,7 @@ configurations:
 
 images:
   - name: source-image
-    newName: joonatpa/etalii
+    newName: ghcr.io/kielolaaksosta/todoapp/etalii
     newTag: latest
 
 patches:
