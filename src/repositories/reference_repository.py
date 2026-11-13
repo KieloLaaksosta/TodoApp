@@ -1,4 +1,5 @@
 from sqlalchemy import text
+from sqlalchemy.exc import IntegrityError
 from config import db
 from entities.reference import Reference
 
@@ -48,12 +49,17 @@ def add_reference(bibtex_key : str, reference_type : str, title : str, author : 
             INSERT INTO latex_references (bibtex_key,reference_type,title,author,year,publisher)
             VALUES (:bibtex_key,:reference_type, :title, :author, :year, :publisher)
             """)
-    db.session.execute(sql,  {
-                            "bibtex_key":bibtex_key,
-                            "reference_type":reference_type, 
-                            "title":title,
-                            "author":author, 
-                            "year":year, 
-                            "publisher":publisher})
-    db.session.commit()
-    return True
+    try:
+        db.session.execute(sql, {
+            "bibtex_key": bibtex_key,
+            "reference_type": reference_type, 
+            "title": title,
+            "author": author, 
+            "year": year, 
+            "publisher": publisher
+        })
+        db.session.commit()
+        return True
+    except IntegrityError:
+        db.session.rollback()
+        return False
