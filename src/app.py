@@ -7,14 +7,19 @@ app = Flask(__name__)
 def render_home():
     return render_template("index.html")
 
+@app.route("/new_reference")
+def new_reference():
+    return render_template("new_reference.html")
+
 @app.route("/add_reference", methods=["POST"])
 def reference_addition():
     reference_type=request.form["reference_type"]
+    bibtex_key=request.form["bibtex_key"]
     title=request.form["title"]
     author=request.form["author"]
     year=request.form["year"]
     publisher=request.form["publisher"]
 
-    add_reference(reference_type,title,author,year,publisher)
-    return redirect("/new_reference")
+    add_reference(bibtex_key, reference_type, title, author, year, publisher)
+    return redirect("/")
 
