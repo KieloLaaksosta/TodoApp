@@ -1,7 +1,6 @@
-from flask import Flask, redirect, render_template, request
+from flask import redirect, render_template, request
+from config import app
 from repositories.reference_repository import add_reference, get_references
-
-app = Flask(__name__)
 
 @app.route("/")
 def render_home():
