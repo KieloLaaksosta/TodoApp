@@ -1,7 +1,8 @@
-from flask import redirect, render_template, request
-from config import app
-from repositories.reference_repository import add_reference, get_references
+from flask import redirect, render_template, request, jsonify
+from config import app, test_env
 from datetime import datetime
+from repositories.reference_repository import add_reference, get_references
+from db_helper import reset_db
 
 @app.route("/")
 def render_home():
@@ -25,3 +26,13 @@ def reference_addition():
     add_reference(bibtex_key, reference_type, title, author, year, publisher)
     return redirect("/")
 
+# testausta varten oleva reitti
+if test_env:
+    @app.route("/reset_db")
+    def reset_database():
+        reset_db()
+        return jsonify({
+
+            'message': "database reset"
+
+        })

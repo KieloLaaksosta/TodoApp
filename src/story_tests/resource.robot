@@ -5,6 +5,7 @@ Library  Browser
 ${SERVER}     localhost:5001
 ${DELAY}      500ms
 ${HOME_URL}   http://${SERVER}
+${RESET_URL}  http://${SERVER}/reset_db
 ${BROWSER}    chromium
 ${HEADLESS}   false
 
@@ -17,6 +18,9 @@ Open And Configure Browser
     END
     New Context
     New Page  about:blank
+
+Reset References
+    Go To  ${RESET_URL}
 
 Page Should Contain Text
     [Arguments]    ${expected_text}
