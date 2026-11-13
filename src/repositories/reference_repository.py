@@ -16,6 +16,7 @@ def get_references():
 
 def add_reference(bibtex_key : str, reference_type : str, title : str, author : str, year_str : str, publisher : str) -> None:
     bibtex_key = bibtex_key.strip()
+    reference_type = reference_type.strip()
     title = title.strip()
     author = author.strip()
     
