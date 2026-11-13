@@ -5,7 +5,8 @@ from datetime import datetime
 
 @app.route("/")
 def render_home():
-    return render_template("index.html")
+    references = get_references()
+    return render_template("index.html", references=references)
 
 @app.route("/new_reference")
 def new_reference():

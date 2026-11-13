@@ -1,5 +1,7 @@
 # TodoApp
 
+- [Sovellus](https://rohjelmistotuotanto-lahiopetus-2026-8.ext.okd-cs-test-0.k8s.cs.helsinki.fi/)
+
 - [Product backlog](https://github.com/users/KieloLaaksosta/projects/1/settings/access)  
 - [Pelisäännöt](https://github.com/KieloLaaksosta/TodoApp/blob/main/pelisaannot.md)
 
