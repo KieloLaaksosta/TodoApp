@@ -3,5 +3,6 @@ CREATE TABLE latex_references (
   ref_type TEXT NOT NULL,
   title TEXT NOT NULL,
   author TEXT,
-  year INTEGER
+  year INTEGER,
+  publisher TEXT
 )
