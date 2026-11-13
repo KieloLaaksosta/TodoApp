@@ -20,7 +20,9 @@ def add_reference(bibtex_key : str, reference_type : str, title : str, author : 
     title = title.strip()
     author = author.strip()
     
-    if not bibtex_key:
+    author = none_if_empty(author)
+    
+    if not bibtex_key or not title or not reference_type:
         return False
     
     if (
