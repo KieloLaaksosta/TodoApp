@@ -14,7 +14,7 @@ def get_references():
 def add_reference(bibtex_key, reference_type, title, author, year, publisher):
     sql=text("""
             INSERT INTO latex_references (bibtex_key,reference_type,title,author,year,publisher)
-            VALUES (:bibtext_key,:reference_type, :title, :author, :year, :publisher)
+            VALUES (:bibtex_key,:reference_type, :title, :author, :year, :publisher)
             """)
     db.session.execute(sql,  {
                             "bibtex_key":bibtex_key,
