@@ -1,1 +1,41 @@
-<h1>Hello World</h1>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Reference helper</title>
+  <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+  <div class="header">
+    Reference helper
+  </div>
+  <div class="nav">
+    <p>
+      <a href="/new_reference">Add new reference</a>
+    </p>
+  </div>
+  <div class="content">
+    <table>
+      <tr>
+        <th>Key</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Type</th>
+        <th>Year</th>
+        <th>Publisher</th>
+      </tr>
+      {% for ref in references %}
+      <tr>
+        <td>{{ ref.key }}</td>
+        <td>{{ ref.title }}</td>
+        <td>{{ ref.author }}</td>
+        <td>{{ ref.type }}</td>
+        <td>{{ ref.year }}</td>
+        <td>{{ ref.publisher }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</body>
+</html>
