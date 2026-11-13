@@ -4,6 +4,8 @@ from entities.reference import Reference
 
 MAX_REF_KEY_LEN = 100
 MAX_TEXT_LEN = 255
+MIN_YEAR = 1
+MAX_YEAR = 2100
 
 def get_references():
     result = db.session.execute(text(
@@ -12,7 +14,13 @@ def get_references():
     references = result.fetchall()
     return [Reference(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5]) for ref in references]
 
-def add_reference(bibtex_key, reference_type, title, author, year, publisher):
+def add_reference(bibtex_key : str, reference_type : str, title : str, author : str, year_str : str, publisher : str) -> None:
+    bibtex_key = bibtex_key.strip()
+    title = title.strip()
+    author = author.strip()
+    
+    if not bibtex_key:
+        return False
     
     if (
         len(bibtex_key) > MAX_REF_KEY_LEN
@@ -20,6 +28,14 @@ def add_reference(bibtex_key, reference_type, title, author, year, publisher):
         or len(author) > MAX_TEXT_LEN
         or len(publisher) > MAX_TEXT_LEN
     ):
+        return False
+    
+    try:
+        year = int(year_str)
+    except (TypeError, ValueError):
+        return False
+    
+    if year > MAX_YEAR or year < MIN_YEAR:
         return False
     
     sql=text("""
