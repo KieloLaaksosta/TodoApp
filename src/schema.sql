@@ -1,6 +1,6 @@
 CREATE TABLE latex_references (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  bibtex_key TEXT UNIQUE NOT NULL,
+  bibtex_key TEXT NOT NULL UNIQUE,
   reference_type TEXT NOT NULL,
   title TEXT NOT NULL,
   author TEXT,
