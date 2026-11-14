@@ -21,3 +21,7 @@ Open And Configure Browser
 Page Should Contain Text
     [Arguments]    ${expected_text}
     Get Text       body    contains    ${expected_text}
+
+Fill Field
+    [Arguments]    ${field_id}    ${field_text}
+    Fill Text    id=${field_id}    ${field_text}
