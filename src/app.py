@@ -22,4 +22,3 @@ def reference_addition():
 
     add_reference(bibtex_key, reference_type, title, author, year, publisher)
     return redirect("/")
-
