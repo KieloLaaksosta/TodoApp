@@ -9,6 +9,19 @@ class Test_reference_repository(unittest.TestCase):
     def setUp(self):
         self.reference=["jdsfjijff3842", "book", "The Heidelberg of Bringing", "Bill Wat", "1405", "Otava"]
 
+    @patch("repositories.reference_repository.db.session")
+    def test_get_reference_empty(self,fake_session):
+        fake_session.execute.return_value.fetchall.return_value=[
+            ("book", "jdsfjijff3842", "The Heidelberg of Bringing", "Bill Wat", 1405, "Otava"),
+            ("book", "key1", "Clean Code: A Handbook of Agile Software Craftsmanship","Martin, Robert",2008,"Prentice Hall")
+        ]
+
+        result=get_references()
+        self.assertIsInstance(result,list)
+        self.assertIsInstance(result[0],Reference)
+        self.assertEqual(result[0].key,"jdsfjijff3842")
+        self.assertEqual(result[1].key,"key1")
+    
     def test_add_reference_with_no_bibtex_key(self):
         ref=['']+self.reference[1:]
         result=add_reference(ref[0],ref[1],ref[2],ref[3],ref[4],ref[5])
@@ -85,8 +98,6 @@ class Test_reference_repository(unittest.TestCase):
         fake_session.rollback.assert_called_once()
         self.assertFalse(result)
 
-
-        
 
 
 if __name__ == "__main__":
