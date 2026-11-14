@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    env:
+      DATABASE_URL: sqlite:///database.db
+      SECRET_KEY: 6398a85438fd9c51cf2a80a1b77468cdee76a32506a6262b677238f6282aaa43
+      TEST_ENV: true
     steps:
       - uses: actions/checkout@v5
 

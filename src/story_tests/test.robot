@@ -4,6 +4,6 @@ Suite Setup      Open And Configure Browser
 Suite Teardown   Close Browser
 
 *** Test Cases ***
-page loads and displays Hello World
+page loads and displays Reference helper
     Go To   ${HOME_URL}
-    Page Should Contain Text   Hello World
+    Page Should Contain Text   Reference helper
