@@ -1,5 +1,6 @@
 import unittest
 from unittest.mock import patch
+from sqlalchemy.exc import IntegrityError
 from entities.reference import Reference
 from repositories.reference_repository import get_references, add_reference
 
@@ -76,7 +77,13 @@ class Test_reference_repository(unittest.TestCase):
         fake_session.commit.assert_called_once()
         self.assertTrue(result)
 
-    
+    @patch("repositories.reference_repository.db.session")
+    def test_add_reference_with_IntegrityError(self, fake_session):
+        ref=self.reference
+        fake_session.execute.side_effect=IntegrityError(None,None,None)
+        result=add_reference(ref[0],ref[1],ref[2],ref[3],ref[4],ref[5])
+        fake_session.rollback.assert_called_once()
+        self.assertFalse(result)
 
 
         
