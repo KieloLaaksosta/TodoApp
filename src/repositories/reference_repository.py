@@ -39,7 +39,7 @@ def add_reference(
     if (
         len(bibtex_key) > MAX_REF_KEY_LEN
         or len(title) > MAX_TEXT_LEN
-        or len(author) > MAX_TEXT_LEN
+        or (author is not None and len(author)) > MAX_TEXT_LEN
         or len(publisher) > MAX_TEXT_LEN
     ):
         return False
