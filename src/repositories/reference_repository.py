@@ -2,6 +2,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 from config import db
 from entities.reference import Reference
+from utils import current_year
 
 MAX_REF_KEY_LEN = 100
 MAX_TEXT_LEN = 255
@@ -13,9 +14,6 @@ def get_references():
     ))
     references = result.fetchall()
     return [Reference(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5]) for ref in references]
-
-def none_if_empty(string: str) -> str:
-    return string if string else None
 
 def add_reference(
     bibtex_key : str,
@@ -30,9 +28,7 @@ def add_reference(
     title = title.strip()
     author = author.strip()
 
-    author = none_if_empty(author)
-
-    if not bibtex_key or not title or not reference_type:
+    if not bibtex_key or not title or not reference_type or not author:
         return False
 
     if (
