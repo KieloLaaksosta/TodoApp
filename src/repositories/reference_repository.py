@@ -6,7 +6,6 @@ from entities.reference import Reference
 MAX_REF_KEY_LEN = 100
 MAX_TEXT_LEN = 255
 MIN_YEAR = 1
-MAX_YEAR = 2100
 
 def get_references():
     result = db.session.execute(text(
@@ -49,7 +48,7 @@ def add_reference(
     except (TypeError, ValueError):
         return False
 
-    if year > MAX_YEAR or year < MIN_YEAR:
+    if year > current_year() or year < MIN_YEAR:
         return False
 
     sql=text("""
