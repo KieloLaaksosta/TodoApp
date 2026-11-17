@@ -25,3 +25,7 @@ Page Should Contain Text
 Fill Field
     [Arguments]    ${field_id}    ${field_text}
     Fill Text    id=${field_id}    ${field_text}
+
+Select Value
+    [Arguments]    ${dropdown_id}    ${value}
+    Select Options By    id=${dropdown_id}    value    ${value}

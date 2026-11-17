@@ -13,7 +13,7 @@ user can add a new reference
     Click    text=Add new reference
     
     Fill Field    bibtex_key      meikäläinen123
-    Fill Field    reference_type  book
+    Select Value  reference_type  book
     Fill Field    author          Matti Meikäläinen
     Fill Field    title           Kokeilupainos
     Fill Field    year            2026
