@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request
 from config import app
-from repositories.reference_repository import add_reference, get_references
+from repositories.reference_repository import add_reference, get_references, REF_TYPES
 from utils import current_year
 
 @app.route("/")
@@ -10,7 +10,7 @@ def render_home():
 
 @app.route("/new_reference")
 def new_reference():
-    return render_template("new_reference.html", current_year=current_year())
+    return render_template("new_reference.html", current_year=current_year(), ref_types=REF_TYPES)
 
 @app.route("/add_reference", methods=["POST"])
 def reference_addition():

@@ -8,6 +8,8 @@ MAX_REF_KEY_LEN = 100
 MAX_TEXT_LEN = 255
 MIN_YEAR = 1
 
+REF_TYPES = ["book"]
+
 def get_references():
     result = db.session.execute(text(
         "SELECT reference_type, bibtex_key, author, title, year, publisher FROM latex_references"
