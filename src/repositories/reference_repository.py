@@ -32,6 +32,9 @@ def add_reference(
 
     if not bibtex_key or not title or not reference_type or not author:
         return False
+    
+    if reference_type not in REF_TYPES:
+        return False
 
     if (
         len(bibtex_key) > MAX_REF_KEY_LEN
