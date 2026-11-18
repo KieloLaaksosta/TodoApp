@@ -26,6 +26,17 @@ class Test_reference_repository(unittest.TestCase):
 
         result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
         self.assertIsNotNone(result)
+        
+    def test_add_reference_with_invalid_reference_type(self):
+        bibtex_key = "jdsfjijff3842"
+        reference_type = "DROP TABLE latex_references"
+        title = "The Heidelberg of Bringing"
+        author = "Bill Wat"
+        year = 1405
+        publisher = "Otava"
+
+        result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
+        self.assertIsNotNone(result)
 
     def test_add_reference_with_no_author(self):
         bibtex_key = "jdsfjijff3842"
@@ -101,7 +112,7 @@ class Test_reference_repository(unittest.TestCase):
         result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
 
         fake_session.commit.assert_called_once()
-        self.assertTrue(result)
+        self.assertIsNone(result)
 
     @patch("repositories.reference_repository.db.session")
     def test_add_reference_with_IntegrityError(self, fake_session):
