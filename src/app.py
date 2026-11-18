@@ -14,12 +14,12 @@ def new_reference():
 
 @app.route("/add_reference", methods=["POST"])
 def reference_addition():
-    reference_type=request.form["reference_type"]
-    bibtex_key=request.form["bibtex_key"]
-    title=request.form["title"]
-    author=request.form["author"]
-    year=request.form["year"]
-    publisher=request.form["publisher"]
+    reference_type=request.form.get("reference_type")
+    bibtex_key=request.form.get("bibtex_key")
+    title=request.form.get("title")
+    author=request.form.get("author")
+    year=request.form.get("year")
+    publisher=request.form.get("publisher")
 
     error_msg = add_reference(bibtex_key, reference_type, title, author, year, publisher)
     if error_msg:

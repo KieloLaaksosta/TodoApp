@@ -25,6 +25,9 @@ def add_reference(
     year_str : str,
     publisher : str
 ) -> str:
+    if None in [bibtex_key, reference_type, title, author, year_str , publisher]:
+        return "Missing fields."    
+    
     bibtex_key = bibtex_key.strip()
     reference_type = reference_type.strip()
     title = title.strip()
