@@ -10,6 +10,17 @@
   <div class="header">
     Reference helper
   </div>
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul class=flashes>
+    {% for message in messages %}
+    <li><strong>{{ message }}</strong></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
+
   <div class="nav">
     <p>
       <a href="/new_reference">Add new reference</a>
@@ -38,4 +49,5 @@
     </table>
   </div>
 </body>
+
 </html>

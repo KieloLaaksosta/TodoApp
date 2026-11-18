@@ -1,6 +1,16 @@
 <html>
 <h2>New reference</h2>
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li><strong>{{ message }}</strong></li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
 <form action="/add_reference" method="post">
     <label for="bibtex_key">BibTeX key:</label>
     <input type="text" id="bibtex_key" name="bibtex_key" pattern=".*\S+.*" maxlength="100" required><br><br>

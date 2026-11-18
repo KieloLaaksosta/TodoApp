@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request
+from flask import redirect, render_template, request, flash, session
 from config import app
 from repositories.reference_repository import add_reference, get_references, REF_TYPES
 from utils import current_year
@@ -21,5 +21,10 @@ def reference_addition():
     year=request.form["year"]
     publisher=request.form["publisher"]
 
-    add_reference(bibtex_key, reference_type, title, author, year, publisher)
+    error_msg = add_reference(bibtex_key, reference_type, title, author, year, publisher)
+    if error_msg:
+        flash(error_msg)
+        return redirect("/new_reference")
+    
+    flash("Reference added succesfully.")
     return redirect("/")

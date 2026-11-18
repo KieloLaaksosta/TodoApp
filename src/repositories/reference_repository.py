@@ -43,7 +43,7 @@ def add_reference(
         return "Missing publisher."
     
     if reference_type not in REF_TYPES:
-        return f"Invalid reference type. Allowed types: {REF_TYPES}"
+        return f"Invalid reference type: {reference_type}. Allowed types: {REF_TYPES}"
 
     if (len(bibtex_key) > MAX_REF_KEY_LEN):
         return f"Bibtex key too long. Maximum: {MAX_REF_KEY_LEN} characters"
