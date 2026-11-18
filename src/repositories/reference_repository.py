@@ -24,7 +24,7 @@ def add_reference(
     author : str,
     year_str : str,
     publisher : str
-) -> None:
+) -> str:
     bibtex_key = bibtex_key.strip()
     reference_type = reference_type.strip()
     title = title.strip()
