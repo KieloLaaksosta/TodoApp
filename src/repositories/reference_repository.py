@@ -29,28 +29,39 @@ def add_reference(
     reference_type = reference_type.strip()
     title = title.strip()
     author = author.strip()
+    publisher = publisher.strip()
 
-    if not bibtex_key or not title or not reference_type or not author:
-        return False
+    if not bibtex_key:
+        return "Missing bibtex key."
+    if  not title:
+        return "Missing title."
+    if not reference_type:
+        return "Missing reference type key."
+    if not author:
+        return "Missing author."
+    if not publisher:
+        return "Missing publisher."
     
     if reference_type not in REF_TYPES:
-        return False
+        return f"Invalid reference type. Allowed types: {REF_TYPES}"
 
-    if (
-        len(bibtex_key) > MAX_REF_KEY_LEN
-        or len(title) > MAX_TEXT_LEN
-        or (author is not None and len(author)) > MAX_TEXT_LEN
-        or len(publisher) > MAX_TEXT_LEN
-    ):
-        return False
+    if (len(bibtex_key) > MAX_REF_KEY_LEN):
+        return f"Bibtex key too long. Maximum: {MAX_REF_KEY_LEN} characters"
+    if len(title) > MAX_TEXT_LEN:
+        return f"Title too long. Maximum: {MAX_TEXT_LEN} characters"
+    if len(author) > MAX_TEXT_LEN:
+        return f"Author name too long. Maximum: {MAX_TEXT_LEN} characters"
+    if len(publisher) > MAX_TEXT_LEN:
+        return f"Publisher name too long. Maximum: {MAX_TEXT_LEN} characters"
 
     try:
         year = int(year_str)
     except (TypeError, ValueError):
-        return False
+        return f"Invalid year. Must be an integer."
 
-    if year > current_year() or year < MIN_YEAR:
-        return False
+    max_year = current_year()
+    if year > max_year or year < MIN_YEAR:
+        return f"The year must be at most {max_year} and atl east {MIN_YEAR}."
 
     sql=text("""
             INSERT INTO latex_references (bibtex_key,reference_type,title,author,year,publisher)
@@ -66,7 +77,7 @@ def add_reference(
             "publisher": publisher
         })
         db.session.commit()
-        return True
+        return None
     except IntegrityError:
         db.session.rollback()
-        return False
+        return f"Refernce with Bibtex key {bibtex_key} already exists."
