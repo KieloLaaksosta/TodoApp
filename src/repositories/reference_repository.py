@@ -67,3 +67,9 @@ def add_reference(
     except IntegrityError:
         db.session.rollback()
         return False
+
+def delete_reference(bibtex_key : str):
+    sql = text(
+    """DELETE FROM latex_references WHERE bibtex_key = :bibtex_key""")
+    db.session.execute(sql, {"bibtex_key": bibtex_key})
+    db.session.commit()
