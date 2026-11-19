@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Reference helper</title>
+  <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+  {% for ref in references %}
+  <pre>
+@{{ ref.type }}&lcub;{{ ref.key }},
+    author = "{{ ref.author }}",
+    title = "{{ ref.title }}",
+    year = "{{ ref.year }}",
+    publisher = "{{ ref.publisher }}"
+&rcub;
+  </pre>
+  {% endfor %}
+</body>

@@ -28,3 +28,8 @@ def reference_addition():
     
     flash("Reference added succesfully.")
     return redirect("/")
+
+@app.route("/bibtex")
+def render_bibtex():
+    references = get_references()
+    return render_template("bibtex.html", references=references)

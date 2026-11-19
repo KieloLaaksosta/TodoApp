@@ -69,7 +69,7 @@ def add_reference(
         return f"The year must be at most {max_year} and at least {MIN_YEAR}."
 
     if not all(c in KEY_ALLOWED_CHARS for c in bibtex_key):
-        return "Invalid key. Only numbers, English letters and following specail charachters: _ . : and - are allowed."
+        return "Invalid key. Only numbers, English letters and following special characters: _ . : and - are allowed."
 
     sql=text("""
             INSERT INTO latex_references (bibtex_key,reference_type,title,author,year,publisher)
