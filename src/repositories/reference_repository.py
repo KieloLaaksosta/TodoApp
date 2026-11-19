@@ -88,4 +88,18 @@ def add_reference(
         return None
     except IntegrityError:
         db.session.rollback()
-        return f"Refernce with Bibtex key {bibtex_key} already exists."
+        return f"Reference with Bibtex key {bibtex_key} already exists."
+
+def generate_bibtex(references: list):
+    bibtex = ""
+    for ref in references:
+        bibtex += f"@{ref.type}"
+        bibtex += "{"
+        bibtex += f"{ref.key},\n"
+        bibtex += f"""    author = "{ref.author}",\n"""
+        bibtex += f"""    title = "{ref.title}",\n"""
+        bibtex += f"""    year = "{ref.year}",\n"""
+        bibtex += f"""    publisher = "{ref.publisher}"\n"""
+        bibtex += "}\n"
+        bibtex += "\n"
+    return bibtex
