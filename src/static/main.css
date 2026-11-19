@@ -5,6 +5,7 @@
   --neutral-2: #8d96a5;
   --dark: #1b222c;
   --green: #098842;
+  --lightgreen: #E8F0E9;
   --darkgreen: #123e26;
 
   /*Semantic*/
@@ -18,12 +19,12 @@
   --font-size-h2: clamp(1.5rem, 2vw, 3rem);
   --font-size-h3: clamp(1rem, 1.5vw, 2rem);
   --font-size-content: clamp(0.7rem, 1vw, 1.5rem);
-  --font-size-form: clamp(0.4rem, 0,5vw, 1rem);
+  --font-size-form: clamp(0.4rem, 0.5vw, 1rem);
 }
 
 body {
   padding:2rem;
-  background-color: var(--white);
+  background-color: var(--lightgreen);
   color: var(--dark);
   font-family: var(--font-sans);
   font-size: var(--font-size-content);
@@ -90,6 +91,7 @@ table {
   margin: 0 auto;
   border-collapse: collapse;
   border: 3px solid;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 caption {
@@ -99,25 +101,30 @@ caption {
   font-size: var(--font-size-h2)
 }
 
-thead {
-  font-size: var(--font-size-h3);
+thead th {
+    background-color: var(--green);
+    color: var(--white);
+    font-size: var(--font-size-h3);
+    padding: 1rem;
 }
 
 th,td {
   vertical-align: top;
   padding: clamp(0.5rem, 1vw, 1.5rem);
   text-align: center;
-  border: 2px solid;
   overflow-wrap: anywhere;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--darkgreen);
 }
 
 :is(th, td):is(:nth-child(1), :nth-child(4), :nth-child(5)) {
   width: 10%;
 }
 
-tbody td:first-child {
-  text-align: center;
-  vertical-align: middle;
+tbody tr:nth-of-type(even) {
+  background-color: var(--neutral-1);
 }
 
 .form-container {
