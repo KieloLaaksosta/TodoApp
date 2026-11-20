@@ -1,5 +1,6 @@
 *** Settings ***
-Library  Browser
+Library    Browser
+Library    OperatingSystem
 
 *** Variables ***
 ${SERVER}     127.0.0.1:5000
@@ -11,9 +12,9 @@ ${HEADLESS}   false
 *** Keywords ***
 Open And Configure Browser
     IF  $HEADLESS == 'true'
-        New Browser  browser=${BROWSER}  headless=True
+        New Browser  browser=${BROWSER}    headless=True
     ELSE
-        New Browser  browser=${BROWSER}  headless=False  slowMo=${DELAY}
+        New Browser  browser=${BROWSER}    headless=False    slowMo=${DELAY}
     END
     New Context
     New Page  about:blank
