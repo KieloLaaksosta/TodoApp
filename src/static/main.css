@@ -197,6 +197,7 @@ tbody tr:nth-of-type(even) {
     border-radius: 2rem;
     font: inherit;
     font-weight: 600;
+    text-decoration: none;
     cursor: pointer;
 }
 
@@ -204,7 +205,6 @@ tbody tr:nth-of-type(even) {
   background-color: var(--white);
   color: var(--dark);
   border: 1px solid var(--neutral-2);
-  text-decoration: none;
 }
 
 .cancel-button:hover {
@@ -219,4 +219,13 @@ tbody tr:nth-of-type(even) {
 
 .submit-button:hover {
     background-color: var(--green);
+}
+
+.bibtex-form {
+  width: 50%;
+  background-color: var(--lightgreen);
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 2rem auto;
 }
