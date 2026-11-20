@@ -2,7 +2,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 from config import db
 from entities.reference import Reference
-from utils import current_year
+from utils import current_year, bibtex_proof
 import re
 
 MAX_REF_KEY_LEN = 100
@@ -69,7 +69,7 @@ def add_reference(
         return f"The year must be at most {max_year} and at least {MIN_YEAR}."
 
     if not all(c in KEY_ALLOWED_CHARS for c in bibtex_key):
-        return "Invalid key. Only numbers, English letters and following specail charachters: _ . : and - are allowed."
+        return "Invalid key. Only numbers, English letters and following special characters: _ . : and - are allowed."
 
     sql=text("""
             INSERT INTO latex_references (bibtex_key,reference_type,title,author,year,publisher)
@@ -88,4 +88,18 @@ def add_reference(
         return None
     except IntegrityError:
         db.session.rollback()
-        return f"Refernce with Bibtex key {bibtex_key} already exists."
+        return f"Reference with Bibtex key {bibtex_key} already exists."
+
+def generate_bibtex(references: list):
+    bibtex = ""
+    for ref in references:
+        bibtex += f"@{ref.type}"
+        bibtex += "{"
+        bibtex += f"{ref.key},\n"
+        bibtex += f"""    author = "{bibtex_proof(ref.author)}",\n"""
+        bibtex += f"""    title = "{bibtex_proof(ref.title)}",\n"""
+        bibtex += f"""    year = "{ref.year}",\n"""
+        bibtex += f"""    publisher = "{bibtex_proof(ref.publisher)}"\n"""
+        bibtex += "}\n"
+        bibtex += "\n"
+    return bibtex

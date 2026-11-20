@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Reference helper</title>
-  <link rel="stylesheet" href="/static/main.css">
-</head>
+{% block title %}Reference helper{% endblock %}
 
-<body>
-  <div class="header">
-    Reference helper
-  </div>
+{% block content %}
 
   {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -21,24 +14,33 @@
   {% endif %}
   {% endwith %}
 
-  <div class="nav">
-    <p>
-      <a href="/new_reference">Add new reference</a>
-    </p>
-  </div>
-  <div class="content">
+  <div class="content-wrapper">
+    <div class="nav-container">
+          <a href="/new_reference" class="nav-button">
+              <span class="plus">+</span>
+              Add new reference
+          </a>
+          <a href="/bibtex" class="nav-button">
+            <span class="plus">+</span>
+            Generate BibTex
+          </a>
+    </div>
     <table>
+      <caption>Reference list</caption>
+      <thead>
       <tr>
-        <th>Key</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Type</th>
-        <th>Year</th>
-        <th>Publisher</th>
+        <th scope="column">Key</th>
+        <th scope="column">Title</th>
+        <th scope="column">Author</th>
+        <th scope="column">Type</th>
+        <th scope="column">Year</th>
+        <th scope="column">Publisher</th>
       </tr>
+      </thead>
+      <tbody>
       {% for ref in references %}
       <tr>
-        <td>{{ ref.key }}</td>
+        <th scope="row">{{ ref.key }}</th>
         <td>{{ ref.title }}</td>
         <td>{{ ref.author }}</td>
         <td>{{ ref.type }}</td>
@@ -46,8 +48,9 @@
         <td>{{ ref.publisher }}</td>
       </tr>
       {% endfor %}
+      </tbody>
     </table>
   </div>
-</body>
 
-</html>
+{% endblock %}
+
