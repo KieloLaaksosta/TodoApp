@@ -1,4 +1,4 @@
-from flask import flash, redirect, render_template, request
+from flask import redirect, render_template, request, flash, session
 from config import app
 from repositories.reference_repository import add_reference, get_references, delete_reference, REF_TYPES
 from utils import current_year
@@ -14,14 +14,19 @@ def new_reference():
 
 @app.route("/add_reference", methods=["POST"])
 def reference_addition():
-    reference_type=request.form["reference_type"]
-    bibtex_key=request.form["bibtex_key"]
-    title=request.form["title"]
-    author=request.form["author"]
-    year=request.form["year"]
-    publisher=request.form["publisher"]
+    reference_type=request.form.get("reference_type")
+    bibtex_key=request.form.get("bibtex_key")
+    title=request.form.get("title")
+    author=request.form.get("author")
+    year=request.form.get("year")
+    publisher=request.form.get("publisher")
 
-    add_reference(bibtex_key, reference_type, title, author, year, publisher)
+    error_msg = add_reference(bibtex_key, reference_type, title, author, year, publisher)
+    if error_msg:
+        flash(error_msg)
+        return redirect("/new_reference")
+    
+    flash("Reference added succesfully.")
     return redirect("/")
 
 @app.route("/delete_reference", methods=["POST"])
