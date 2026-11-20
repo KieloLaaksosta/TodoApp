@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, flash, session, send_file
+from flask import redirect, render_template, request, flash, send_file
 from config import app
 from repositories.reference_repository import add_reference, get_references, generate_bibtex, delete_reference, REF_TYPES
 from utils import current_year, create_references_bib_file
@@ -25,7 +25,7 @@ def reference_addition():
     if error_msg:
         flash(error_msg)
         return redirect("/new_reference")
-    
+
     flash("Reference added succesfully.")
     return redirect("/")
 

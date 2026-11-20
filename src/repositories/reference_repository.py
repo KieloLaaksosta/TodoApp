@@ -3,7 +3,6 @@ from sqlalchemy.exc import IntegrityError
 from config import db
 from entities.reference import Reference
 from utils import current_year, bibtex_proof
-import re
 
 MAX_REF_KEY_LEN = 100
 MAX_TEXT_LEN = 255
@@ -28,8 +27,8 @@ def add_reference(
     publisher : str
 ) -> str:
     if None in [bibtex_key, reference_type, title, author, year_str , publisher]:
-        return "Missing fields."    
-    
+        return "Missing fields."
+
     bibtex_key = bibtex_key.strip()
     reference_type = reference_type.strip()
     title = title.strip()
@@ -46,11 +45,11 @@ def add_reference(
         return "Missing author."
     if not publisher:
         return "Missing publisher."
-    
+
     if reference_type not in REF_TYPES:
         return f"Invalid reference type: {reference_type}. Allowed types: {REF_TYPES}"
 
-    if (len(bibtex_key) > MAX_REF_KEY_LEN):
+    if len(bibtex_key) > MAX_REF_KEY_LEN:
         return f"Bibtex key too long. Maximum: {MAX_REF_KEY_LEN} characters"
     if len(title) > MAX_TEXT_LEN:
         return f"Title too long. Maximum: {MAX_TEXT_LEN} characters"
@@ -62,7 +61,7 @@ def add_reference(
     try:
         year = int(year_str)
     except (TypeError, ValueError):
-        return f"Invalid year. Must be an integer."
+        return "Invalid year. Must be an integer."
 
     max_year = current_year()
     if year > max_year or year < MIN_YEAR:
