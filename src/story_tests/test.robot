@@ -31,4 +31,4 @@ User Can Add A New Reference
 User Can Navigate To BibTex Page
     Go To    ${HOME_URL}
     Click    text=Generate BibTex
-    Page Should Contain Text    BibTex code:
+    Page Should Contain Text    Download

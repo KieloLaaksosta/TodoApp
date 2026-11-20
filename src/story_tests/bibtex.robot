@@ -13,7 +13,7 @@ BibTex Loads on BibTex Page
     Page Should Contain Text    }
 
 BibTex File Generates
-    Click    text=Download as .bib file
+    Click    text=Download
     File Should Exist    ./src/instance/references.bib
     File Should Contain Text    ./src/instance/references.bib   @book{testkey,
     File Should Contain Text    ./src/instance/references.bib    author = "testauthor"
