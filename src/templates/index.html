@@ -6,6 +6,24 @@
   <link rel="stylesheet" href="/static/main.css">
 </head>
 
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <p class="flash-message" role="alert">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<script>
+  const flashMessages = document.querySelectorAll(".flash-message");
+
+  flashMessages.forEach((message) => {
+    setTimeout(() => {
+      message.remove();
+    }, 3000);
+  });
+</script>
+
 <body>
   <div class="header">
     Reference helper
@@ -15,6 +33,7 @@
       <a href="/new_reference">Add new reference</a>
     </p>
   </div>
+
   <div class="content">
     <table>
       <tr>
@@ -33,6 +52,13 @@
         <td>{{ ref.type }}</td>
         <td>{{ ref.year }}</td>
         <td>{{ ref.publisher }}</td>
+        <td>
+          <form action="/delete_reference", method="post"
+                onsubmit="return confirm('Delete this reference?');">
+            <input type="hidden" name="bibtex_key" value="{{ ref.key }}">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
       </tr>
       {% endfor %}
     </table>

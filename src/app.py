@@ -1,6 +1,6 @@
-from flask import redirect, render_template, request
+from flask import flash, redirect, render_template, request
 from config import app
-from repositories.reference_repository import add_reference, get_references, REF_TYPES
+from repositories.reference_repository import add_reference, get_references, delete_reference, REF_TYPES
 from utils import current_year
 
 @app.route("/")
@@ -22,4 +22,11 @@ def reference_addition():
     publisher=request.form["publisher"]
 
     add_reference(bibtex_key, reference_type, title, author, year, publisher)
+    return redirect("/")
+
+@app.route("/delete_reference", methods=["POST"])
+def reference_deletion():
+    bibtex_key = request.form["bibtex_key"]
+    delete_reference(bibtex_key)
+    flash(f"Reference '{bibtex_key}' was deleted.")
     return redirect("/")
