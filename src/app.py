@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, flash, session, send_file
 from config import app
-from repositories.reference_repository import add_reference, get_references, generate_bibtex, REF_TYPES
+from repositories.reference_repository import add_reference, get_references, delete_reference, generate_bibtex, REF_TYPES
 from utils import current_year, create_references_bib_file
 
 @app.route("/")
@@ -41,3 +41,10 @@ def download_bibtex():
     bibtex = generate_bibtex(references)
     path = create_references_bib_file(bibtex)
     return send_file(path, as_attachment=True)
+
+@app.route("/delete_reference", methods=["POST"])
+def reference_deletion():
+    bibtex_key = request.form["bibtex_key"]
+    delete_reference(bibtex_key)
+    flash(f"Reference '{bibtex_key}' was deleted.")
+    return redirect("/")

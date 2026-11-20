@@ -19,7 +19,6 @@
   --font-size-h2: clamp(1.5rem, 2vw, 3rem);
   --font-size-h3: clamp(1rem, 1.5vw, 2rem);
   --font-size-content: clamp(0.7rem, 1vw, 1.5rem);
-  --font-size-form: clamp(0.4rem, 0.5vw, 1rem);
 }
 
 body {
@@ -170,7 +169,7 @@ tbody tr:nth-of-type(even) {
 }
 
 .form-field input {
-  font-size: var(--font-size-form);
+  font-size: var(--font-size-content);
   padding: 0.5rem;
   border: 1px solid var(--neutral-1);
   border-radius: 6px;
@@ -228,4 +227,13 @@ tbody tr:nth-of-type(even) {
   border-radius: 8px;
   overflow-x: auto;
   margin: 2rem auto;
+}
+
+.flash-message {
+    background-color: #e9aef6;
+    color: #060606;
+    border: 1px solid #ffecb5;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin: 10px 0;
 }

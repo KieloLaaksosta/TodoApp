@@ -89,7 +89,7 @@ def add_reference(
     except IntegrityError:
         db.session.rollback()
         return f"Reference with Bibtex key {bibtex_key} already exists."
-
+    
 def generate_bibtex(references: list):
     bibtex = ""
     for ref in references:
@@ -103,3 +103,10 @@ def generate_bibtex(references: list):
         bibtex += "}\n"
         bibtex += "\n"
     return bibtex
+
+def delete_reference(bibtex_key : str):
+    sql = text(
+    """DELETE FROM latex_references WHERE bibtex_key = :bibtex_key""")
+    db.session.execute(sql, {"bibtex_key": bibtex_key})
+    db.session.commit()
+
