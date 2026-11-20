@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 :root {
 
   --white: #fff;
@@ -237,3 +238,15 @@ tbody tr:nth-of-type(even) {
     padding: 10px 14px;
     margin: 10px 0;
 }
+=======
+body {
+  margin: auto;
+  max-width: 50em;
+  font-family: sans-serif;
+  background-color: lightblue;
+}
+
+h1, h2 {
+    margin: 0;
+}
+>>>>>>> 8008ea5 (Move css file)
