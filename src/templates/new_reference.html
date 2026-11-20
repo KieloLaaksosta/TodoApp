@@ -4,6 +4,16 @@
 
 {% block content %}
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li><strong>{{ message }}</strong></li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
 <div class="form-container">
 
     <form action="/add_reference" method="post">
@@ -48,4 +58,3 @@
 </div>
 
 {% endblock %}
-

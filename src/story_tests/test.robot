@@ -12,8 +12,8 @@ user can add a new reference
     Go To    ${HOME_URL}
     Click    text=Add new reference
     
-    Fill Field    bibtex_key      meikäläinen123
-    Fill Field    reference_type  book
+    Fill Field    bibtex_key      meikalainen123
+    Select Value  reference_type  book
     Fill Field    author          Matti Meikäläinen
     Fill Field    title           Kokeilupainos
     Fill Field    year            2026
@@ -22,7 +22,7 @@ user can add a new reference
     Click    text=Add Reference
     
     Get Url    ==    ${HOME_URL}/
-    Page Should Contain Text    meikäläinen123
+    Page Should Contain Text    meikalainen123
     Page Should Contain Text    Matti Meikäläinen
     Page Should Contain Text    Kokeilupainos
     Page Should Contain Text    2026

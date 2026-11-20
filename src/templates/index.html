@@ -4,16 +4,27 @@
 
 {% block content %}
 
-  <div class="new-reference-container">
-  <p>
-      <a href="/new_reference" class="new-reference-button">
-          <span class="plus">+</span>
-          Add new reference
-      </a>
-  </p>
-  </div>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul class=flashes>
+    {% for message in messages %}
+    <li><strong>{{ message }}</strong></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
 
-  <div class="table-wrapper">
+  <div class="content-wrapper">
+    <div class="nav-container">
+          <a href="/new_reference" class="nav-button">
+              <span class="plus">+</span>
+              Add new reference
+          </a>
+          <a href="/bibtex" class="nav-button">
+            <span class="plus">+</span>
+            Generate BibTex
+          </a>
+    </div>
     <table>
       <caption>Reference list</caption>
       <thead>
@@ -42,3 +53,4 @@
   </div>
 
 {% endblock %}
+

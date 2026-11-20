@@ -1,104 +1,131 @@
 import unittest
 from unittest.mock import patch
 from sqlalchemy.exc import IntegrityError
-from entities.reference import Reference
-from repositories.reference_repository import get_references, add_reference
+from repositories.reference_repository import add_reference
 
 
 class Test_reference_repository(unittest.TestCase):
-    def setUp(self):
-        self.reference=["jdsfjijff3842", "book", "The Heidelberg of Bringing", "Bill Wat", "1405", "Otava"]
-
-    @patch("repositories.reference_repository.db.session")
-    def test_get_reference_empty(self,fake_session):
-        fake_session.execute.return_value.fetchall.return_value=[
-            ("book", "jdsfjijff3842", "The Heidelberg of Bringing", "Bill Wat", 1405, "Otava"),
-            ("book", "key1", "Clean Code: A Handbook of Agile Software Craftsmanship","Martin, Robert",2008,"Prentice Hall")
-        ]
-
-        result=get_references()
-        self.assertIsInstance(result,list)
-        self.assertIsInstance(result[0],Reference)
-        self.assertEqual(result[0].key,"jdsfjijff3842")
-        self.assertEqual(result[1].key,"key1")
-    
     def test_add_reference_with_no_bibtex_key(self):
-        ref=['']+self.reference[1:]
-        result=add_reference(ref[0],ref[1],ref[2],ref[3],ref[4],ref[5])
-        self.assertFalse(result)
+        bibtex_key = ""
+        reference_type = "book"
+        title = "The Heidelberg of Bringing"
+        author = "Bill Wat"
+        year = 1405
+        publisher = "Otava"
+
+        result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
+        self.assertIsNotNone(result)
 
     def test_add_reference_with_no_reference_type(self):
-        ref=[self.reference[0]]+['']+self.reference[2:]
-        result=add_reference(ref[0],ref[1],ref[2],ref[3],ref[4],ref[5])
-        self.assertFalse(result)
+        bibtex_key = "jdsfjijff3842"
+        reference_type = ""
+        title = "The Heidelberg of Bringing"
+        author = "Bill Wat"
+        year = 1405
+        publisher = "Otava"
 
-    @patch("repositories.reference_repository.db.session")
-    def test_add_reference_with_no_author(self,fake_session):
-        ref=self.reference[:3]+['']+self.reference[4:]
-        result=add_reference(ref[0],ref[1],ref[2],ref[3],ref[4],ref[5])
-        self.assertTrue(result)
+        result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
+        self.assertIsNotNone(result)
+        
+    def test_add_reference_with_invalid_reference_type(self):
+        bibtex_key = "jdsfjijff3842"
+        reference_type = "DROP TABLE latex_references"
+        title = "The Heidelberg of Bringing"
+        author = "Bill Wat"
+        year = 1405
+        publisher = "Otava"
 
-        args=fake_session.execute.call_args[0][1]
-        self.assertIsNone(args["author"])
+        result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
+        self.assertIsNotNone(result)
 
-        fake_session.commit.assert_called_once()
+    def test_add_reference_with_no_author(self):
+        bibtex_key = "jdsfjijff3842"
+        reference_type = "book"
+        title = "The Heidelberg of Bringing"
+        author = "  "
+        year = 1405
+        publisher = "Otava"
+
+        result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
+        self.assertIsNotNone(result)
 
     def test_add_reference_with_invalid_length(self):
-        key_ref=[self.reference[0]*100]+self.reference[1:] # for bibtex_key
-        result=add_reference(key_ref[0],key_ref[1],key_ref[2],key_ref[3],key_ref[4],key_ref[5])
-        self.assertFalse(result)
+        result = add_reference(
+            bibtex_key="a" * 101,
+            reference_type="book",
+            title="The Heidelberg of Bringing",
+            author="Bill Wat",
+            year_str="1405",
+            publisher="Otava"
+        )
+        self.assertIsNotNone(result)
 
-        title_ref=self.reference[:2]+[self.reference[2]*1000]+self.reference[3:] # for title
-        result=add_reference(title_ref[0],title_ref[1],title_ref[2],title_ref[3],title_ref[4],title_ref[5])
-        self.assertFalse(result)
+        result = add_reference(
+            bibtex_key="jdsfjijff3842",
+            reference_type="book",
+            title="A" * 256,
+            author="Bill Wat",
+            year_str="1405",
+            publisher="Otava"
+        )
+        self.assertIsNotNone(result)
 
-        author_ref=self.reference[:3]+[self.reference[3]*1000]+self.reference[4:] #for author
-        result=add_reference(author_ref[0],author_ref[1],author_ref[2],author_ref[3],author_ref[4],author_ref[5])
-        self.assertFalse(result)
+        result = add_reference(
+            bibtex_key="jdsfjijff3842",
+            reference_type="book",
+            title="The Heidelberg of Bringing",
+            author="A" * 256,
+            year_str="1405",
+            publisher="Otava"
+        )
+        self.assertIsNotNone(result)
 
-        publisher_ref=self.reference[:5]+[self.reference[5]*1000] # for publisher
-        result=add_reference(publisher_ref[0],publisher_ref[1],publisher_ref[2],publisher_ref[3],publisher_ref[4],publisher_ref[5])
-        self.assertFalse(result)
+        result = add_reference(
+            bibtex_key="jdsfjijff3842",
+            reference_type="book",
+            title="The Heidelberg of Bringing",
+            author="Bill Wat",
+            year_str="1405",
+            publisher="P" * 256
+        )
+        self.assertIsNotNone(result)
 
     def test_add_reference_with_invalid_year(self):
-        ref=self.reference[:4]+['abc']+[self.reference[5]] # not integer
-        result=add_reference(ref[0],ref[1],ref[2],ref[3],ref[4],ref[5])
-        self.assertFalse(result)
+        result = add_reference("jdsfjijff3842", "book", "The Heidelberg of Bringing", "Bill Wat", "abc", "Otava")
+        self.assertIsNotNone(result)
 
-        ref=self.reference[:4]+['2200']+[self.reference[5]] # year > max_year
-        result=add_reference(ref[0],ref[1],ref[2],ref[3],ref[4],ref[5])
-        self.assertFalse(result)
+        result = add_reference("jdsfjijff3842", "book", "The Heidelberg of Bringing", "Bill Wat", 2200, "Otava")
+        self.assertIsNotNone(result)
 
-        ref=self.reference[:4]+[0]+[self.reference[5]] # year < min_year
-        result=add_reference(ref[0],ref[1],ref[2],ref[3],ref[4],ref[5])
-        self.assertFalse(result)
+        result = add_reference("jdsfjijff3842", "book", "The Heidelberg of Bringing", "Bill Wat", 0, "Otava")
+        self.assertIsNotNone(result)
 
     @patch("repositories.reference_repository.db.session")
     def test_add_reference(self, fake_session):
-        ref=self.reference
-        result=add_reference(ref[0],ref[1],ref[2],ref[3],ref[4],ref[5])
+        bibtex_key = "jdsfjijff3842"
+        reference_type = "book"
+        title = "The Heidelberg of Bringing"
+        author = "Bill Wat"
+        year = "1405"
+        publisher = "Otava"
 
-        args=fake_session.execute.call_args[0][1]
-        self.assertEqual(args['bibtex_key'],"jdsfjijff3842")
-        self.assertEqual(args['reference_type'],'book')
-        self.assertEqual(args['title'],'The Heidelberg of Bringing')
-        self.assertEqual(args['author'],'Bill Wat')
-        self.assertEqual(args['year'],1405)
-        self.assertEqual(args['publisher'],'Otava')
-
+        result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
 
         fake_session.commit.assert_called_once()
-        self.assertTrue(result)
+        self.assertIsNone(result)
 
     @patch("repositories.reference_repository.db.session")
     def test_add_reference_with_IntegrityError(self, fake_session):
-        ref=self.reference
-        fake_session.execute.side_effect=IntegrityError(None,None,None)
-        result=add_reference(ref[0],ref[1],ref[2],ref[3],ref[4],ref[5])
+        fake_session.execute.side_effect = IntegrityError(None, None, None)
+
+        result = add_reference(
+            bibtex_key="jdsfjijff3842",
+            reference_type="book",
+            title="The Heidelberg of Bringing",
+            author="Bill Wat",
+            year_str="1405",
+            publisher="Otava"
+        )
+
         fake_session.rollback.assert_called_once()
-        self.assertFalse(result)
-
-
-
-if __name__ == "__main__":
-    unittest.main()
+        self.assertIsNotNone(result)

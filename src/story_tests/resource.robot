@@ -2,7 +2,7 @@
 Library  Browser
 
 *** Variables ***
-${SERVER}     localhost:5001
+${SERVER}     127.0.0.1:5000
 ${DELAY}      500ms
 ${HOME_URL}   http://${SERVER}
 ${BROWSER}    chromium
@@ -25,3 +25,25 @@ Page Should Contain Text
 Fill Field
     [Arguments]    ${field_id}    ${field_text}
     Fill Text    id=${field_id}    ${field_text}
+
+Select Value
+    [Arguments]    ${dropdown_id}    ${value}
+    Select Options By    id=${dropdown_id}    value    ${value}
+
+Create Reference
+    [Arguments]    ${key}    ${type}    ${author}    ${title}    ${year}    ${publisher}
+    Go To    ${HOME_URL}
+    Click    text=Add new reference
+    
+    Fill Field    bibtex_key      ${key}
+    Select Value  reference_type  ${type}
+    Fill Field    author          ${author}
+    Fill Field    title           ${title}
+    Fill Field    year            ${year}
+    Fill Field    publisher       ${publisher}
+    
+    Click    text=Add Reference
+
+Open And Configure Browser And Create Test Reference
+    Open And Configure Browser
+    Create Reference    testkey    book    testauthor    testtitle    2026    testpublisher

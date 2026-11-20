@@ -2,11 +2,15 @@ from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 from config import db
 from entities.reference import Reference
+from utils import current_year, bibtex_proof
+import re
 
 MAX_REF_KEY_LEN = 100
 MAX_TEXT_LEN = 255
 MIN_YEAR = 1
-MAX_YEAR = 2100
+
+REF_TYPES = ["book"]
+KEY_ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ12346789.:_-"
 
 def get_references():
     result = db.session.execute(text(
@@ -15,9 +19,6 @@ def get_references():
     references = result.fetchall()
     return [Reference(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5]) for ref in references]
 
-def none_if_empty(string: str) -> str:
-    return string if string else None
-
 def add_reference(
     bibtex_key : str,
     reference_type : str,
@@ -25,32 +26,50 @@ def add_reference(
     author : str,
     year_str : str,
     publisher : str
-) -> None:
+) -> str:
+    if None in [bibtex_key, reference_type, title, author, year_str , publisher]:
+        return "Missing fields."    
+    
     bibtex_key = bibtex_key.strip()
     reference_type = reference_type.strip()
     title = title.strip()
     author = author.strip()
+    publisher = publisher.strip()
 
-    author = none_if_empty(author)
+    if not bibtex_key:
+        return "Missing bibtex key."
+    if  not title:
+        return "Missing title."
+    if not reference_type:
+        return "Missing reference type key."
+    if not author:
+        return "Missing author."
+    if not publisher:
+        return "Missing publisher."
+    
+    if reference_type not in REF_TYPES:
+        return f"Invalid reference type: {reference_type}. Allowed types: {REF_TYPES}"
 
-    if not bibtex_key or not title or not reference_type:
-        return False
-
-    if (
-        len(bibtex_key) > MAX_REF_KEY_LEN
-        or len(title) > MAX_TEXT_LEN
-        or (author is not None and len(author)) > MAX_TEXT_LEN
-        or len(publisher) > MAX_TEXT_LEN
-    ):
-        return False
+    if (len(bibtex_key) > MAX_REF_KEY_LEN):
+        return f"Bibtex key too long. Maximum: {MAX_REF_KEY_LEN} characters"
+    if len(title) > MAX_TEXT_LEN:
+        return f"Title too long. Maximum: {MAX_TEXT_LEN} characters"
+    if len(author) > MAX_TEXT_LEN:
+        return f"Author name too long. Maximum: {MAX_TEXT_LEN} characters"
+    if len(publisher) > MAX_TEXT_LEN:
+        return f"Publisher name too long. Maximum: {MAX_TEXT_LEN} characters"
 
     try:
         year = int(year_str)
     except (TypeError, ValueError):
-        return False
+        return f"Invalid year. Must be an integer."
 
-    if year > MAX_YEAR or year < MIN_YEAR:
-        return False
+    max_year = current_year()
+    if year > max_year or year < MIN_YEAR:
+        return f"The year must be at most {max_year} and at least {MIN_YEAR}."
+
+    if not all(c in KEY_ALLOWED_CHARS for c in bibtex_key):
+        return "Invalid key. Only numbers, English letters and following special characters: _ . : and - are allowed."
 
     sql=text("""
             INSERT INTO latex_references (bibtex_key,reference_type,title,author,year,publisher)
@@ -66,7 +85,21 @@ def add_reference(
             "publisher": publisher
         })
         db.session.commit()
-        return True
+        return None
     except IntegrityError:
         db.session.rollback()
-        return False
+        return f"Reference with Bibtex key {bibtex_key} already exists."
+
+def generate_bibtex(references: list):
+    bibtex = ""
+    for ref in references:
+        bibtex += f"@{ref.type}"
+        bibtex += "{"
+        bibtex += f"{ref.key},\n"
+        bibtex += f"""    author = "{bibtex_proof(ref.author)}",\n"""
+        bibtex += f"""    title = "{bibtex_proof(ref.title)}",\n"""
+        bibtex += f"""    year = "{ref.year}",\n"""
+        bibtex += f"""    publisher = "{bibtex_proof(ref.publisher)}"\n"""
+        bibtex += "}\n"
+        bibtex += "\n"
+    return bibtex
