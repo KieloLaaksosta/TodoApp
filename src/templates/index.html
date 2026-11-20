@@ -5,11 +5,11 @@
 {% block content %}
 
 {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-      <p class="flash-message" role="alert">{{ message }}</p>
-    {% endfor %}
-  {% endif %}
+{% if messages %}
+{% for message in messages %}
+<p class="flash-message" role="alert">{{ message }}</p>
+{% endfor %}
+{% endif %}
 {% endwith %}
 
 <script>
@@ -23,20 +23,20 @@
 </script>
 
 
-  <div class="content-wrapper">
-    <div class="nav-container">
-          <a href="/new_reference" class="nav-button">
-              <span class="plus">+</span>
-              Add new reference
-          </a>
-          <a href="/bibtex" class="nav-button">
-            <span class="plus">+</span>
-            Generate BibTex
-          </a>
-    </div>
-    <table>
-      <caption>Reference list</caption>
-      <thead>
+<div class="content-wrapper">
+  <div class="nav-container">
+    <a href="/new_reference" class="nav-button">
+      <span class="plus">+</span>
+      Add new reference
+    </a>
+    <a href="/bibtex" class="nav-button">
+      <span class="plus">+</span>
+      Generate BibTex
+    </a>
+  </div>
+  <table>
+    <caption>Reference list</caption>
+    <thead>
       <tr>
         <th scope="column">Key</th>
         <th scope="column">Title</th>
@@ -46,28 +46,26 @@
         <th scope="column">Publisher</th>
         <th scope="column"></th>
       </tr>
-      </thead>
-      <tbody>
+    </thead>
+    <tbody>
       {% for ref in references %}
       <tr>
         <th scope="row">{{ ref.key }}</th>
-        <td>{{ ref.title }}</td>
-        <td>{{ ref.author }}</td>
-        <td>{{ ref.type }}</td>
-        <td>{{ ref.year }}</td>
-        <td>{{ ref.publisher }}</td>
+        <td class="truncate">{{ ref.title }}</td>
+        <td class="truncate">{{ ref.author }}</td>
+        <td class="truncate">{{ ref.type }}</td>
+        <td class="truncate">{{ ref.year }}</td>
+        <td class="truncate">{{ ref.publisher }}</td>
         <td>
-          <form action="/delete_reference", method="post"
-                onsubmit="return confirm('Delete this reference?');">
+          <form action="/delete_reference" , method="post" onsubmit="return confirm('Delete this reference?');">
             <input type="hidden" name="bibtex_key" value="{{ ref.key }}">
             <button type="submit">Delete</button>
           </form>
         </td>
       </tr>
       {% endfor %}
-      </tbody>
-    </table>
-  </div>
+    </tbody>
+  </table>
+</div>
 
 {% endblock %}
-

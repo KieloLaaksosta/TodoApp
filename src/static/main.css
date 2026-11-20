@@ -244,3 +244,10 @@ tbody tr:nth-of-type(even) {
   border-radius: 4px;
   padding: 10px 14px;
 }
+
+.truncate {
+  max-width: 90px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
