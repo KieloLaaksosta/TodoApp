@@ -48,3 +48,10 @@ def reference_deletion():
     delete_reference(bibtex_key)
     flash(f"Reference '{bibtex_key}' was deleted.")
     return redirect("/")
+
+@app.route("/delete_reference", methods=["POST"])
+def reference_deletion():
+    bibtex_key = request.form["bibtex_key"]
+    delete_reference(bibtex_key)
+    flash(f"Reference '{bibtex_key}' was deleted.")
+    return redirect("/")

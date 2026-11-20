@@ -2,8 +2,11 @@
 
 {% block title %}Reference helper{% endblock %}
 
+<<<<<<< HEAD
 {% block content %}
 
+=======
+>>>>>>> 4389769 (Create delete button)
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}
@@ -33,6 +36,7 @@
             Generate BibTex
           </a>
     </div>
+
     <table>
       <caption>Reference list</caption>
       <thead>
@@ -59,7 +63,11 @@
           <form action="/delete_reference", method="post"
                 onsubmit="return confirm('Delete this reference?');">
             <input type="hidden" name="bibtex_key" value="{{ ref.key }}">
+<<<<<<< HEAD
             <button type="submit" class="cancel-button">Delete</button>
+=======
+            <button type="submit">Delete</button>
+>>>>>>> 4389769 (Create delete button)
           </form>
         </td>
       </tr>
