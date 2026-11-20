@@ -4,11 +4,11 @@ Suite Setup      Open And Configure Browser
 Suite Teardown   Close Browser
 
 *** Test Cases ***
-page loads and displays Reference helper
+Page Loads And Displays Reference Helper
     Go To   ${HOME_URL}
     Page Should Contain Text   Reference helper
 
-user can add a new reference
+User Can Add A New Reference
     Go To    ${HOME_URL}
     Click    text=Add new reference
     
@@ -27,3 +27,8 @@ user can add a new reference
     Page Should Contain Text    Kokeilupainos
     Page Should Contain Text    2026
     Page Should Contain Text    Tylsätkirjat
+
+User Can Navigate To BibTex Page
+    Go To    ${HOME_URL}
+    Click    text=Generate BibTex
+    Page Should Contain Text    BibTex code:
