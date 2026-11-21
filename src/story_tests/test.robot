@@ -29,6 +29,26 @@ User Can Add A New Reference
     Page Should Contain Text    2026
     Page Should Contain Text    Tylsätkirjat
 
+User Can Delete A Reference
+    Go To    ${HOME_URL}
+    Click    text=Add new reference
+    
+    Fill Field    bibtex_key      meikalainen123
+    Select Value  reference_type  book
+    Fill Field    author          Matti Meikäläinen
+    Fill Field    title           Kokeilupainos
+    Fill Field    year            2026
+    Fill Field    publisher       Tylsätkirjat
+    
+    Click    text=Add Reference
+
+    Handle Future Dialogs    action=accept
+    Click    button >> text=Delete
+
+    Get Url     ==    ${HOME_URL}/
+    Page Should Contain Text    Reference 'meikalainen123' was deleted.
+    Page Should Not Contain Text    Kokeilupainos
+
 User Can Navigate To BibTex Page
     Go To    ${HOME_URL}
     Click    text=Generate BibTex

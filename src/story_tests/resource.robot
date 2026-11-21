@@ -27,6 +27,11 @@ Page Should Contain Text
     [Arguments]    ${expected_text}
     Get Text       body    contains    ${expected_text}
 
+Page Should Not Contain Text
+    [Arguments]    ${unexpected_text}
+    ${page_text}=    Get Text    body
+    Should Not Contain    ${page_text}    ${unexpected_text}
+
 Fill Field
     [Arguments]    ${field_id}    ${field_text}
     Fill Text    id=${field_id}    ${field_text}
