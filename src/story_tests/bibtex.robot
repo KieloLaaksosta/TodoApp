@@ -24,7 +24,7 @@ BibTex File Generates
 
 *** Keywords ***
 Open And Configure Browser And Create Test Reference And Go To BibTex Page
-    Open And Configure Browser And Create Test Reference
+    Open And Configure Browser And Reset Database And Create Test Reference
     Click    text=Generate Bibtex
 
 File Should Contain Text

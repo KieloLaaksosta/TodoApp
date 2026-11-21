@@ -1,6 +1,7 @@
 *** Settings ***
 Library    Browser
 Library    OperatingSystem
+Library    ${CURDIR}/../db_helper.py
 
 *** Variables ***
 ${SERVER}     127.0.0.1:5001
@@ -18,6 +19,9 @@ Open And Configure Browser
     END
     New Context
     New Page  about:blank
+
+Reset Database
+    Reset Db
 
 Page Should Contain Text
     [Arguments]    ${expected_text}
@@ -45,6 +49,7 @@ Create Reference
     
     Click    text=Add Reference
 
-Open And Configure Browser And Create Test Reference
+Open And Configure Browser And Reset Database And Create Test Reference
     Open And Configure Browser
+    Reset Database
     Create Reference    testkey    book    testauthor    testtitle    2026    testpublisher
