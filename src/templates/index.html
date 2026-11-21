@@ -50,7 +50,7 @@
     <tbody>
       {% for ref in references %}
       <tr>
-        <th scope="row">{{ ref.key }}</th>
+        <th class="truncate" style="max-width:70" scope="row">{{ ref.key }}</th>
         <td class="truncate">{{ ref.title }}</td>
         <td class="truncate">{{ ref.author }}</td>
         <td class="truncate">{{ ref.type }}</td>
