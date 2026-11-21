@@ -1,7 +1,23 @@
-from flask import redirect, render_template, request, flash, send_file
+from flask import (
+    redirect,
+    render_template,
+    request,
+    flash,
+    send_file
+)
 from config import app
-from repositories.reference_repository import add_reference, get_references, generate_bibtex, delete_reference, REF_TYPES
-from utils import current_year, create_references_bib_file
+from repositories.reference_repository import (
+    add_reference,
+    delete_reference,
+    generate_bibtex,
+    get_references,
+)
+from entities.reference import (
+    REF_TYPES,
+    Reference,
+    ReferenceValidationError
+)
+from utils import create_references_bib_file, current_year
 
 @app.route("/")
 def render_home():
@@ -14,16 +30,15 @@ def new_reference():
 
 @app.route("/add_reference", methods=["POST"])
 def reference_addition():
-    reference_type=request.form.get("reference_type")
-    bibtex_key=request.form.get("bibtex_key")
-    title=request.form.get("title")
-    author=request.form.get("author")
-    year=request.form.get("year")
-    publisher=request.form.get("publisher")
-
-    error_msg = add_reference(bibtex_key, reference_type, title, author, year, publisher)
-    if error_msg:
-        flash(error_msg)
+    try:
+        reference = Reference.from_form(request.form)
+    except ReferenceValidationError as e:
+        flash(e.args[0])
+        return redirect("/new_reference")
+    try:
+        add_reference(reference)
+    except ValueError as e:
+        flash(e.args[0])
         return redirect("/new_reference")
 
     flash("Reference added succesfully.")
