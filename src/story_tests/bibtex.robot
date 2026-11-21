@@ -14,13 +14,13 @@ BibTex Loads on BibTex Page
 
 BibTex File Generates
     Click    text=Download
-    File Should Exist    ./src/instance/references.bib
-    File Should Contain Text    ./src/instance/references.bib   @book{testkey,
-    File Should Contain Text    ./src/instance/references.bib    author = "testauthor"
-    File Should Contain Text    ./src/instance/references.bib    title = "testtitle"
-    File Should Contain Text    ./src/instance/references.bib    year = "2026"
-    File Should Contain Text    ./src/instance/references.bib    publisher = "testpublisher"
-    File Should Contain Text    ./src/instance/references.bib    }
+    File Should Exist    ./data/references.bib
+    File Should Contain Text    ./data/references.bib   @book{testkey,
+    File Should Contain Text    ./data/references.bib    author = "testauthor"
+    File Should Contain Text    ./data/references.bib    title = "testtitle"
+    File Should Contain Text    ./data/references.bib    year = "2026"
+    File Should Contain Text    ./data/references.bib    publisher = "testpublisher"
+    File Should Contain Text    ./data/references.bib    }
 
 *** Keywords ***
 Open And Configure Browser And Create Test Reference And Go To BibTex Page
