@@ -29,3 +29,6 @@ jobs:
 
       - name: Run robot tests
         run: bash run_robot_tests.sh
+
+      - name: Run Pylint
+        run: uv run pylint src
