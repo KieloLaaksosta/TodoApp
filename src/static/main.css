@@ -231,10 +231,14 @@ tbody tr:nth-of-type(even) {
 }
 
 .flash-message {
-    background-color: #e9aef6;
-    color: #060606;
-    border: 1px solid #ffecb5;
+    width: 100%;
+    max-width: 1800px;
+    box-sizing: border-box;
+    margin: 10px auto;
+    background-color: var(--green);
+    color: var(--white);
+    font-size: var(--font-size-h3);
+    border: 1px solid var(--neutral-1);
     border-radius: 4px;
     padding: 10px 14px;
-    margin: 10px 0;
 }
