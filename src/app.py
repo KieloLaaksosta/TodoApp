@@ -1,7 +1,7 @@
-from flask import redirect, render_template, request, flash, session
+from flask import redirect, render_template, request, flash, session, send_file
 from config import app
-from repositories.reference_repository import add_reference, get_references, delete_reference, REF_TYPES
-from utils import current_year
+from repositories.reference_repository import add_reference, get_references, generate_bibtex, delete_reference, REF_TYPES
+from utils import current_year, create_references_bib_file
 
 @app.route("/")
 def render_home():
@@ -28,6 +28,19 @@ def reference_addition():
     
     flash("Reference added succesfully.")
     return redirect("/")
+
+@app.route("/bibtex")
+def render_bibtex():
+    references = get_references()
+    bibtex = generate_bibtex(references)
+    return render_template("bibtex.html", bibtex=bibtex)
+
+@app.route("/bibtex/download")
+def download_bibtex():
+    references = get_references()
+    bibtex = generate_bibtex(references)
+    path = create_references_bib_file(bibtex)
+    return send_file(path, as_attachment=True)
 
 @app.route("/delete_reference", methods=["POST"])
 def reference_deletion():

@@ -1,12 +1,233 @@
-body {
-  margin: auto;
-  max-width: 50em;
-  font-family: sans-serif;
-  background-color: lightblue;
+:root {
+
+  --white: #fff;
+  --neutral-1: #c3c8cf;
+  --neutral-2: #8d96a5;
+  --dark: #1b222c;
+  --green: #098842;
+  --lightgreen: #E8F0E9;
+  --darkgreen: #123e26;
+
+  /*Semantic*/
+  --bg-primary: var(--white);
+  --bg-secondary: var(--neutral-2);
+  --content-primary: var(--neutral-1);
+  --content-secondary: var(--neutral-2);
+
+
+  --font-sans: "Noto Sans", sans-serif;
+  --font-size-h2: clamp(1.5rem, 2vw, 3rem);
+  --font-size-h3: clamp(1rem, 1.5vw, 2rem);
+  --font-size-content: clamp(0.7rem, 1vw, 1.5rem);
+  --font-size-form: clamp(0.4rem, 0.5vw, 1rem);
 }
 
-h1, h2 {
+body {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: var(--white);
+  color: var(--dark);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-content);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.header-container {
+    width: 100%;
+    max-width: 1800px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--lightgreen);
+    padding-top: 7rem;
+    padding-bottom: 3rem;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
     margin: 0;
+}
+
+.content-wrapper {
+  width:100%;
+  overflow-x: auto;
+  justify-content: center;
+}
+
+.nav-container {
+  width: 75%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin: 2rem auto;
+}
+
+.nav-button {
+  display: inline-block;
+  align-items: center;
+
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 2rem;
+
+  background-color: var(--darkgreen);
+  color: var(--white);
+  text-decoration: none;
+  font: inherit;
+  font-weight: 600;
+}
+
+.plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+
+  background-color: var(--white);
+  color: var(--darkgreen);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.nav-button:hover {
+    background-color: var(--green);
+}
+
+table {
+  width: 75%;
+  max-width: 1800px;
+	table-layout: fixed;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border: 3px solid;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+caption {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5rem;
+  font-size: var(--font-size-h2)
+}
+
+thead th {
+    background-color: var(--green);
+    color: var(--white);
+    font-size: var(--font-size-h3);
+    padding: 1rem;
+}
+
+th,td {
+  vertical-align: top;
+  padding: clamp(0.5rem, 1vw, 1.5rem);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--darkgreen);
+}
+
+:is(th, td):is(:nth-child(1), :nth-child(4), :nth-child(5)) {
+  width: 10%;
+}
+
+tbody tr:nth-of-type(even) {
+  background-color: var(--lightgreen);
+}
+
+.form-container {
+  width: 60%;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding:2.5rem;
+  background-color: var(--white);
+  border: 1px solid var(--neutral-1);
+  border-radius: 12px;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field label {
+  font-weight: 600;
+}
+
+.form-field input {
+  font-size: var(--font-size-form);
+  padding: 0.5rem;
+  border: 1px solid var(--neutral-1);
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-field input:focus {
+    outline: 2px solid var(--green);
+    border-color: var(--green);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.cancel-button, .submit-button {
+    padding: 0.75rem 1.5rem;
+    margin: 0.5rem;
+    border: none;
+    border-radius: 2rem;
+    font: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.cancel-button {
+  background-color: var(--white);
+  color: var(--dark);
+  border: 1px solid var(--neutral-2);
+}
+
+.cancel-button:hover {
+  background-color: var(--neutral-1);
+}
+
+.submit-button {
+  background-color: var(--darkgreen);
+  color: var(--white);
+  border: none;
+}
+
+.submit-button:hover {
+    background-color: var(--green);
+}
+
+.bibtex-form {
+  width: 50%;
+  background-color: var(--lightgreen);
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 2rem auto;
 }
 
 .flash-message {
@@ -16,4 +237,4 @@ h1, h2 {
     border-radius: 4px;
     padding: 10px 14px;
     margin: 10px 0;
-  }
+}

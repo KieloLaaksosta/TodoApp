@@ -1,8 +1,9 @@
 *** Settings ***
-Library  Browser
+Library    Browser
+Library    OperatingSystem
 
 *** Variables ***
-${SERVER}     localhost:5001
+${SERVER}     127.0.0.1:5001
 ${DELAY}      500ms
 ${HOME_URL}   http://${SERVER}
 ${BROWSER}    chromium
@@ -11,9 +12,9 @@ ${HEADLESS}   false
 *** Keywords ***
 Open And Configure Browser
     IF  $HEADLESS == 'true'
-        New Browser  browser=${BROWSER}  headless=True
+        New Browser  browser=${BROWSER}    headless=True
     ELSE
-        New Browser  browser=${BROWSER}  headless=False  slowMo=${DELAY}
+        New Browser  browser=${BROWSER}    headless=False    slowMo=${DELAY}
     END
     New Context
     New Page  about:blank
@@ -29,3 +30,21 @@ Fill Field
 Select Value
     [Arguments]    ${dropdown_id}    ${value}
     Select Options By    id=${dropdown_id}    value    ${value}
+
+Create Reference
+    [Arguments]    ${key}    ${type}    ${author}    ${title}    ${year}    ${publisher}
+    Go To    ${HOME_URL}
+    Click    text=Add new reference
+    
+    Fill Field    bibtex_key      ${key}
+    Select Value  reference_type  ${type}
+    Fill Field    author          ${author}
+    Fill Field    title           ${title}
+    Fill Field    year            ${year}
+    Fill Field    publisher       ${publisher}
+    
+    Click    text=Add Reference
+
+Open And Configure Browser And Create Test Reference
+    Open And Configure Browser
+    Create Reference    testkey    book    testauthor    testtitle    2026    testpublisher
