@@ -1,131 +1,35 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 from sqlalchemy.exc import IntegrityError
 from repositories.reference_repository import add_reference
 
 
-class Test_reference_repository(unittest.TestCase):
-    def test_add_reference_with_no_bibtex_key(self):
-        bibtex_key = ""
-        reference_type = "book"
-        title = "The Heidelberg of Bringing"
-        author = "Bill Wat"
-        year = 1405
-        publisher = "Otava"
-
-        result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
-        self.assertIsNotNone(result)
-
-    def test_add_reference_with_no_reference_type(self):
-        bibtex_key = "jdsfjijff3842"
-        reference_type = ""
-        title = "The Heidelberg of Bringing"
-        author = "Bill Wat"
-        year = 1405
-        publisher = "Otava"
-
-        result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
-        self.assertIsNotNone(result)
-        
-    def test_add_reference_with_invalid_reference_type(self):
-        bibtex_key = "jdsfjijff3842"
-        reference_type = "DROP TABLE latex_references"
-        title = "The Heidelberg of Bringing"
-        author = "Bill Wat"
-        year = 1405
-        publisher = "Otava"
-
-        result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
-        self.assertIsNotNone(result)
-
-    def test_add_reference_with_no_author(self):
-        bibtex_key = "jdsfjijff3842"
-        reference_type = "book"
-        title = "The Heidelberg of Bringing"
-        author = "  "
-        year = 1405
-        publisher = "Otava"
-
-        result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
-        self.assertIsNotNone(result)
-
-    def test_add_reference_with_invalid_length(self):
-        result = add_reference(
-            bibtex_key="a" * 101,
-            reference_type="book",
+class TestReferenceRepository(unittest.TestCase):
+    def setUp(self):
+        self.fake_reference = Mock(
+            key="jdsfjijff3842",
+            type="book",
             title="The Heidelberg of Bringing",
             author="Bill Wat",
-            year_str="1405",
-            publisher="Otava"
+            year=1405,
+            publisher="Otava",
         )
-        self.assertIsNotNone(result)
-
-        result = add_reference(
-            bibtex_key="jdsfjijff3842",
-            reference_type="book",
-            title="A" * 256,
-            author="Bill Wat",
-            year_str="1405",
-            publisher="Otava"
-        )
-        self.assertIsNotNone(result)
-
-        result = add_reference(
-            bibtex_key="jdsfjijff3842",
-            reference_type="book",
-            title="The Heidelberg of Bringing",
-            author="A" * 256,
-            year_str="1405",
-            publisher="Otava"
-        )
-        self.assertIsNotNone(result)
-
-        result = add_reference(
-            bibtex_key="jdsfjijff3842",
-            reference_type="book",
-            title="The Heidelberg of Bringing",
-            author="Bill Wat",
-            year_str="1405",
-            publisher="P" * 256
-        )
-        self.assertIsNotNone(result)
-
-    def test_add_reference_with_invalid_year(self):
-        result = add_reference("jdsfjijff3842", "book", "The Heidelberg of Bringing", "Bill Wat", "abc", "Otava")
-        self.assertIsNotNone(result)
-
-        result = add_reference("jdsfjijff3842", "book", "The Heidelberg of Bringing", "Bill Wat", 2200, "Otava")
-        self.assertIsNotNone(result)
-
-        result = add_reference("jdsfjijff3842", "book", "The Heidelberg of Bringing", "Bill Wat", 0, "Otava")
-        self.assertIsNotNone(result)
 
     @patch("repositories.reference_repository.db.session")
-    def test_add_reference(self, fake_session):
-        bibtex_key = "jdsfjijff3842"
-        reference_type = "book"
-        title = "The Heidelberg of Bringing"
-        author = "Bill Wat"
-        year = "1405"
-        publisher = "Otava"
+    def test_add_reference_success(self, fake_session):
+        result = add_reference(self.fake_reference)
 
-        result = add_reference(bibtex_key, reference_type, title, author, year, publisher)
-
+        fake_session.execute.assert_called_once()
         fake_session.commit.assert_called_once()
+        fake_session.rollback.assert_not_called()
         self.assertIsNone(result)
 
     @patch("repositories.reference_repository.db.session")
-    def test_add_reference_with_IntegrityError(self, fake_session):
+    def test_add_reference_with_integrity_error(self, fake_session):
         fake_session.execute.side_effect = IntegrityError(None, None, None)
 
-        result = add_reference(
-            bibtex_key="jdsfjijff3842",
-            reference_type="book",
-            title="The Heidelberg of Bringing",
-            author="Bill Wat",
-            year_str="1405",
-            publisher="Otava"
-        )
+        with self.assertRaises(ValueError):
+            add_reference(self.fake_reference)
 
         fake_session.rollback.assert_called_once()
-        self.assertIsNotNone(result)
+        fake_session.commit.assert_not_called()

@@ -5,8 +5,9 @@ from config import db, app
 def reset_db():
     print("Clearing contents from table latex_references")
     sql = text("DELETE FROM latex_references")
-    db.session.execute(sql)
-    db.session.commit()
+    with app.app_context():
+        db.session.execute(sql)
+        db.session.commit()
 
 def tables():
     """Returns all table names from the database"""
