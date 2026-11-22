@@ -3,14 +3,6 @@ from sqlalchemy.exc import IntegrityError
 from config import db
 from entities.reference import Reference
 from utils import bibtex_proof
-import re
-
-MAX_REF_KEY_LEN = 100
-MAX_TEXT_LEN = 255
-MIN_YEAR = 1
-
-REF_TYPES = ["book"]
-KEY_ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ12346789.:_-"
 
 def get_references():
     result = db.session.execute(text(
