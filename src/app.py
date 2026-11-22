@@ -1,7 +1,8 @@
 from flask import redirect, render_template, request, flash, session, send_file
 from config import app
-from repositories.reference_repository import add_reference, get_references, generate_bibtex, REF_TYPES
+from repositories.reference_repository import add_reference, get_references, REF_TYPES
 from utils import current_year, create_references_bib_file
+from entities.reference import generate_bibtex
 
 @app.route("/")
 def render_home():

@@ -2,7 +2,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 from config import db
 from entities.reference import Reference
-from utils import current_year, bibtex_proof
+from utils import current_year
 import re
 
 MAX_REF_KEY_LEN = 100
@@ -89,17 +89,3 @@ def add_reference(
     except IntegrityError:
         db.session.rollback()
         return f"Reference with Bibtex key {bibtex_key} already exists."
-
-def generate_bibtex(references: list):
-    bibtex = ""
-    for ref in references:
-        bibtex += f"@{ref.type}"
-        bibtex += "{"
-        bibtex += f"{ref.key},\n"
-        bibtex += f"""    author = "{bibtex_proof(ref.author)}",\n"""
-        bibtex += f"""    title = "{bibtex_proof(ref.title)}",\n"""
-        bibtex += f"""    year = "{ref.year}",\n"""
-        bibtex += f"""    publisher = "{bibtex_proof(ref.publisher)}"\n"""
-        bibtex += "}\n"
-        bibtex += "\n"
-    return bibtex
