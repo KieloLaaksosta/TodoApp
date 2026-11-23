@@ -4,7 +4,7 @@ Library    OperatingSystem
 Library    ${CURDIR}/../db_helper.py
 
 *** Variables ***
-${SERVER}     127.0.0.1:5000
+${SERVER}     127.0.0.1:5001
 ${DELAY}      500ms
 ${HOME_URL}   http://${SERVER}
 ${BROWSER}    chromium
