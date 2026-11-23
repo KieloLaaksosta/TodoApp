@@ -19,7 +19,6 @@
   --font-size-h2: clamp(1.5rem, 2vw, 3rem);
   --font-size-h3: clamp(1rem, 1.5vw, 2rem);
   --font-size-content: clamp(0.7rem, 1vw, 1.5rem);
-  --font-size-form: clamp(0.4rem, 0.5vw, 1rem);
 }
 
 body {
@@ -170,8 +169,9 @@ tbody tr:nth-of-type(even) {
   font-weight: 600;
 }
 
-.form-field input {
-  font-size: var(--font-size-form);
+.form-field input, 
+.form-field select {
+  font-size: var(--font-size-content);
   padding: 0.5rem;
   border: 1px solid var(--neutral-1);
   border-radius: 6px;
@@ -179,7 +179,8 @@ tbody tr:nth-of-type(even) {
   box-sizing: border-box;
 }
 
-.form-field input:focus {
+.form-field input:focus,
+.form-field select:focus {
   outline: 2px solid var(--green);
   border-color: var(--green);
 }

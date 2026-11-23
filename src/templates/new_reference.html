@@ -20,12 +20,14 @@
             <input type="text" id="bibtex_key" name="bibtex_key" pattern="\S+" maxlength="100" required>
         </div>
 
-        <label for="reference_type">Reference type:</label>
-        <select id="reference_type" name="reference_type">
-            {% for ref_type in ref_types %}
-            <option value="{{ ref_type }}">{{ ref_type }}</option>
-            {% endfor %}
-        </select>
+        <div class="form-field">
+            <label for="reference_type">Reference type:</label>
+            <select id="reference_type" name="reference_type">
+                {% for ref_type in ref_types %}
+                <option value="{{ ref_type }}">{{ ref_type }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
         <div class="form-field">
             <label for="author">Author:</label>
