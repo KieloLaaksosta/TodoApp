@@ -50,12 +50,12 @@
     <tbody>
       {% for ref in references %}
       <tr>
-        <th class="truncate" style="max-width:70" scope="row">{{ ref.key }}</th>
-        <td class="truncate">{{ ref.title }}</td>
-        <td class="truncate">{{ ref.author }}</td>
-        <td class="truncate">{{ ref.type }}</td>
-        <td class="truncate">{{ ref.year }}</td>
-        <td class="truncate">{{ ref.publisher }}</td>
+        <th class="truncate" style="max-width:70" scope="row" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.key }}</th>
+        <td class="truncate" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.title }}</td>
+        <td class="truncate" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.author }}</td>
+        <td class="truncate" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.type }}</td>
+        <td class="truncate" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.year }}</td>
+        <td class="truncate" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.publisher }}</td>
         <td>
           <form action="/delete_reference" , method="post" onsubmit="return confirm('Delete this reference?');">
             <input type="hidden" name="bibtex_key" value="{{ ref.key }}">

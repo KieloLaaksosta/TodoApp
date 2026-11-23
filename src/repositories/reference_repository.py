@@ -49,3 +49,12 @@ def delete_reference(bibtex_key : str):
     """DELETE FROM latex_references WHERE bibtex_key = :bibtex_key""")
     db.session.execute(sql, {"bibtex_key": bibtex_key})
     db.session.commit()
+
+def get_reference(ref_key: str):
+    sql = text("""SELECT reference_type, bibtex_key, author, title, year, publisher 
+               FROM latex_references WHERE bibtex_key = :ref_key""")
+    result = db.session.execute(sql, {"ref_key": ref_key})
+    if not result: return None
+    ref = result.fetchall()[0]
+    print(ref)
+    return Reference(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5])

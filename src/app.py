@@ -11,6 +11,7 @@ from repositories.reference_repository import (
     delete_reference,
     generate_bibtex,
     get_references,
+    get_reference
 )
 from entities.reference import (
     REF_TYPES,
@@ -63,3 +64,8 @@ def reference_deletion():
     delete_reference(bibtex_key)
     flash(f"Reference '{bibtex_key}' was deleted.")
     return redirect("/")
+
+@app.route("/reference/<ref_key>")
+def reference_page(ref_key):
+    ref = get_reference(ref_key)
+    return render_template("reference.html", ref=ref)
