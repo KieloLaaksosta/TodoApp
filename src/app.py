@@ -69,3 +69,9 @@ def reference_deletion():
 def reference_page(ref_key):
     ref = get_reference(ref_key)
     return render_template("reference.html", ref=ref)
+
+@app.route("/edit_reference/<ref_key>")
+def edit_reference(ref_key):
+    ref= get_reference(ref_key)
+    old_key=ref.key
+    return render_template("edit_reference.html", ref_types=REF_TYPES, ref=ref, old_key=old_key)
