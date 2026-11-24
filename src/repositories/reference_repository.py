@@ -59,3 +59,22 @@ def get_reference(ref_key: str):
     ref = result.fetchall()[0]
     print(ref)
     return Reference(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5])
+
+def update_reference(reference: Reference):
+    sql=text("""UPDATE latex_references SET bibtex_key=?, reference_type=?,
+                title=?, author=?, year=?, publisher=?
+            """)
+    try:
+        db.session.execute(sql, {
+            "bibtex_key": reference.key,
+            "reference_type": reference.type,
+            "title": reference.title,
+            "author": reference.author,
+            "year": reference.year,
+            "publisher": reference.publisher
+        })
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        raise ValueError(f"Reference with Bibtex key {reference.key} already exists.") from e
+
