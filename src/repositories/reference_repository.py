@@ -79,7 +79,7 @@ def update_reference(reference: Reference, old_key):
             "author": reference.author,
             "year": reference.year,
             "publisher": reference.publisher,
-            "id": old_key
+            "old_key": old_key
         })
         db.session.commit()
     except IntegrityError as e:
