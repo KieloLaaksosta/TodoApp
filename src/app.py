@@ -11,7 +11,8 @@ from repositories.reference_repository import (
     delete_reference,
     generate_bibtex,
     get_references,
-    get_reference
+    get_reference,
+    update_reference
 )
 from entities.reference import (
     REF_TYPES,
@@ -75,3 +76,20 @@ def edit_reference(ref_key):
     ref= get_reference(ref_key)
     old_key=ref.key
     return render_template("edit_reference.html", ref_types=REF_TYPES, ref=ref, old_key=old_key)
+
+@app.route("/update_reference", methods=["POST"])
+def update_reference_route():
+    old_key= request.form.get("old_key")
+    try:
+        reference = Reference.from_form(request.form)
+    except ReferenceValidationError as e:
+        flash(e.args[0])
+        return redirect("/edit_reference/<ref_key>")
+    try:
+        update_reference(reference, old_key)
+    except ValueError as e:
+        flash(e.args[0])
+        return redirect("/edit_reference/<ref_key>")
+
+    flash("Reference added succesfully.")
+    return redirect("/")
