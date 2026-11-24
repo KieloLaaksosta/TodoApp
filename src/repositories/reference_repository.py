@@ -60,9 +60,10 @@ def get_reference(ref_key: str):
     print(ref)
     return Reference(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5])
 
-def update_reference(reference: Reference):
+def update_reference(reference: Reference, ref_id):
     sql=text("""UPDATE latex_references SET bibtex_key=?, reference_type=?,
                 title=?, author=?, year=?, publisher=?
+                WHERE id=?
             """)
     try:
         db.session.execute(sql, {
@@ -72,6 +73,7 @@ def update_reference(reference: Reference):
             "author": reference.author,
             "year": reference.year,
             "publisher": reference.publisher
+            "id": ref_id
         })
         db.session.commit()
     except IntegrityError as e:
