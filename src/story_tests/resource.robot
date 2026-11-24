@@ -36,6 +36,10 @@ Fill Field
     [Arguments]    ${field_id}    ${field_text}
     Fill Text    id=${field_id}    ${field_text}
 
+Clear Field
+    [Arguments]    ${field_id}
+    Clear Text    id=${field_id}
+
 Select Value
     [Arguments]    ${dropdown_id}    ${value}
     Select Options By    id=${dropdown_id}    value    ${value}
