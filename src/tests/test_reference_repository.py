@@ -38,10 +38,18 @@ class TestReferenceRepository(unittest.TestCase):
     def test_update_reference_success(self, fake_session):
         update_reference(self.fake_reference, "oldkey")
 
-        self.assertEqual(fake_session.execute.call_args.args[1]["old_key"],1)
+        self.assertEqual(fake_session.execute.call_args.args[1]["old_key"], "oldkey")
 
         fake_session.execute.assert_called_once()
         fake_session.commit.assert_called_once()
         fake_session.rollback.assert_not_called()
 
+    @patch("repositories.reference_repository.db.session")
+    def test_update_reference_with_integrity_error(self, fake_session):
+        fake_session.execute.side_effect= IntegrityError(None, None, None)
 
+        with self.assertRaises(ValueError):
+            update_reference(self.fake_reference, "oldkey")
+
+        fake_session.rollback.assert_called_once()
+        fake_session.commit.assert_not_called()
