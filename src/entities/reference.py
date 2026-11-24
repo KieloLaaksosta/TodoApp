@@ -6,7 +6,7 @@ MAX_TEXT_LEN = 255
 MIN_YEAR = 1
 
 REF_TYPES = ["book"]
-KEY_ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ12346789.:_-"
+KEY_ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012346789.:_-"
 
 class ReferenceValidationError(ValueError):
     pass
