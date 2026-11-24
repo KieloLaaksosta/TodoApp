@@ -91,5 +91,5 @@ def update_reference_route():
         flash(e.args[0])
         return redirect("/edit_reference/<ref_key>")
 
-    flash("Reference added succesfully.")
-    return redirect("/")
+    flash("Reference updated succesfully.")
+    return redirect("/reference/" + reference.key)
