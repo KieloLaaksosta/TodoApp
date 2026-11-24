@@ -84,12 +84,13 @@ def update_reference_route():
         reference = Reference.from_form(request.form)
     except ReferenceValidationError as e:
         flash(e.args[0])
-        return redirect("/edit_reference/<ref_key>")
+        return redirect(f"/edit_reference/{old_key}")
     try:
         update_reference(reference, old_key)
     except ValueError as e:
         flash(e.args[0])
-        return redirect("/edit_reference/<ref_key>")
+        print("Value")
+        return redirect(f"/edit_reference/{old_key}")
 
     flash("Reference updated succesfully.")
     return redirect("/reference/" + reference.key)
