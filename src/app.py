@@ -1,34 +1,49 @@
 from flask import (
+    flash,
     redirect,
     render_template,
     request,
-    flash,
-    send_file
+    send_file,
 )
 from config import app
-from repositories.reference_repository import (
-    add_reference,
-    delete_reference,
-    generate_bibtex,
-    get_references,
-    get_reference,
-    update_reference
-)
 from entities.reference import (
     REF_TYPES,
     Reference,
-    ReferenceValidationError
+    ReferenceValidationError,
 )
-from utils import create_references_bib_file, current_year
+from repositories.bibtex_repository import (
+    create_references_bib_file,
+    generate_bibtex,
+)
+from repositories.reference_repository import (
+    add_reference,
+    delete_reference,
+    get_reference,
+    get_references,
+    search_references,
+    update_reference,
+)
+from utils import current_year
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def render_home():
-    references = get_references()
-    return render_template("index.html", references=references)
+    search = request.args.get("search", "")[:255]
+    references = search_references(search)
+
+    return render_template("index.html", references=references, search=search)
 
 @app.route("/new_reference")
 def new_reference():
     return render_template("new_reference.html", current_year=current_year(), ref_types=REF_TYPES)
+
+@app.route("/search", methods=["POST"])
+def reference_search():
+    search = request.form.get("search", "")[:255]
+
+    references = search_references(search)
+    render_template("index.html", references=references, search=search)
+
+    return redirect("/")
 
 @app.route("/add_reference", methods=["POST"])
 def reference_addition():
