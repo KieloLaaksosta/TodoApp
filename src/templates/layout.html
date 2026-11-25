@@ -11,6 +11,14 @@
     <h1>Reference helper</h1>
     </div>
 
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <p class="flash-message" role="alert">{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     {% block content %}{% endblock %}
 </body>
 
