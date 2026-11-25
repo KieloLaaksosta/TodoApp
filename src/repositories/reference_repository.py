@@ -85,4 +85,3 @@ def update_reference(reference: Reference, old_key):
     except IntegrityError as e:
         db.session.rollback()
         raise ValueError(f"Reference with Bibtex key {reference.key} already exists.") from e
-
