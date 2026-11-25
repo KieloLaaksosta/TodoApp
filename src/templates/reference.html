@@ -23,8 +23,38 @@
 </script>
 
 <div class="content-wrapper">
-  <h1>{{ ref.title }}</h1>
-  <h2>{{ ref.author }}</h2>
+  <header>
+    <h1>{{ ref.title }}</h1>
+    <h2 style="text-align:center;">{{ ref.author }}</h2>
+  </header>
+
+  <dl class="bibtex-form">
+    <div>
+      <dt>Publisher</dt>
+      <dd>{{ ref.publisher }}</dd>
+    </div>
+    <div>
+      <dt>Year</dt>
+      <dd>{{ ref.year }}</dd>
+    </div>
+    <div>
+      <dt>Type</dt>
+      <dd>{{ ref.type }}</dd>
+    </div>
+    <div>
+      <dt>Bibtex Key</dt>
+      <dd><code>{{ ref.key }}</code></dd>
+    </div>
+  </dl>
+
+  <div style="text-align:center;">
+    <a href="/" class="nav-button">Go back</a>
+    <a href="/edit_reference/{{ ref.key }}" class="nav-button">Edit</a>
+  </div>
+  <form action="/delete_reference" method="post" onsubmit="return confirm('Delete this reference?');">
+    <input type="hidden" name="bibtex_key" value="{{ ref.key }}">
+    <button class="submit-button" type="submit">Delete</button>
+  </form>
 </div>
 
 {% endblock %}
