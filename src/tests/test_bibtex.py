@@ -1,7 +1,6 @@
 import unittest
 from entities.reference import Reference
-from repositories.reference_repository import generate_bibtex
-from utils import bibtex_proof
+from repositories.bibtex_repository import generate_bibtex, bibtex_proof
 
 class Test_bibtex(unittest.TestCase):
     def setUp(self):
@@ -17,13 +16,13 @@ class Test_bibtex(unittest.TestCase):
     def test_generate_bibtex(self):
         ref = [self.ref]
         generated = generate_bibtex(ref)
-        correct = """@book{ilkimys,
-    author = "Itse {"}pahis{"} Ilkimys",
-    title = "näin olet pahis",
-    year = "1950",
-    publisher = "Paha Publishing"
-}
-
-"""
+        correct = (
+            '@book{ilkimys,\n'
+            '    author = "Itse {"}pahis{"} Ilkimys",\n'
+            '    title = "näin olet pahis",\n'
+            '    year = "1950",\n'
+            '    publisher = "Paha Publishing"\n'
+            '}\n\n'
+        )
 
         self.assertEqual(generated, correct)

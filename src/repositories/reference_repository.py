@@ -1,88 +1,107 @@
-from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
+
+from sqlalchemy import text
 from config import db
 from entities.reference import Reference
-from utils import bibtex_proof
+
+SELECT = """
+    SELECT reference_type, bibtex_key, author, title, year, publisher
+    FROM latex_references
+"""
+
+def _row_to_reference(row) -> Reference:
+    return Reference(
+        row["reference_type"],
+        row["bibtex_key"],
+        row["author"],
+        row["title"],
+        row["year"],
+        row["publisher"],
+    )
 
 def get_references():
-    result = db.session.execute(text(
-        "SELECT reference_type, bibtex_key, author, title, year, publisher FROM latex_references"
-    ))
-    references = result.fetchall()
-    return [Reference(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5]) for ref in references]
+    result = db.session.execute(text(SELECT)).mappings().all()
+    return [_row_to_reference(row) for row in result]
 
-def add_reference(reference : Reference):
-    sql=text("""
-            INSERT INTO latex_references (bibtex_key,reference_type,title,author,year,publisher)
-            VALUES (:bibtex_key,:reference_type, :title, :author, :year, :publisher)
-            """)
+def add_reference(reference: Reference):
+    sql = text("""
+        INSERT INTO latex_references (bibtex_key, reference_type, title, author, year, publisher)
+        VALUES (:bibtex_key, :reference_type, :title, :author, :year, :publisher)
+    """)
     try:
-        db.session.execute(sql, {
-            "bibtex_key": reference.key,
-            "reference_type": reference.type,
-            "title": reference.title,
-            "author": reference.author,
-            "year": reference.year,
-            "publisher": reference.publisher
-        })
+        db.session.execute(
+            sql,
+            {
+                "bibtex_key": reference.key,
+                "reference_type": reference.type,
+                "title": reference.title,
+                "author": reference.author,
+                "year": reference.year,
+                "publisher": reference.publisher,
+            },
+        )
         db.session.commit()
     except IntegrityError as e:
         db.session.rollback()
         raise ValueError(f"Reference with Bibtex key {reference.key} already exists.") from e
 
-def generate_bibtex(references: list):
-    bibtex = ""
-    for ref in references:
-        bibtex += f"@{ref.type}"
-        bibtex += "{"
-        bibtex += f"{ref.key},\n"
-        bibtex += f"""    author = "{bibtex_proof(ref.author)}",\n"""
-        bibtex += f"""    title = "{bibtex_proof(ref.title)}",\n"""
-        bibtex += f"""    year = "{ref.year}",\n"""
-        bibtex += f"""    publisher = "{bibtex_proof(ref.publisher)}"\n"""
-        bibtex += "}\n"
-        bibtex += "\n"
-    return bibtex
-
-def delete_reference(bibtex_key : str):
-    sql = text(
-    """DELETE FROM latex_references WHERE bibtex_key = :bibtex_key""")
+def delete_reference(bibtex_key: str):
+    sql = text("DELETE FROM latex_references WHERE bibtex_key = :bibtex_key")
     db.session.execute(sql, {"bibtex_key": bibtex_key})
     db.session.commit()
 
+def format_like_pattern(search: str) -> str:
+    cleaned = " ".join(search.strip().split())
+    return f"%{cleaned.replace(' ', '%')}%"
+
+def search_references(search : str):
+    sql = text(f"""
+        {SELECT}
+        WHERE reference_type LIKE :search
+        OR bibtex_key LIKE :search
+        OR author LIKE :search
+        OR title LIKE :search
+        OR publisher LIKE :search
+        OR CAST(year AS TEXT) LIKE :search
+    """)
+
+    formated_search = format_like_pattern(search)
+    result = db.session.execute(sql, {"search": formated_search}).mappings().all()
+
+    return [_row_to_reference(row) for row in result]
+
 def get_reference(ref_key: str):
-    sql = text("""SELECT reference_type, bibtex_key, author, title, year, publisher
-               FROM latex_references WHERE bibtex_key = :ref_key""")
-    result = db.session.execute(sql, {"ref_key": ref_key})
-    if not result:
+    sql = text(f"{SELECT} WHERE bibtex_key = :ref_key")
+    row = db.session.execute(sql, {"ref_key": ref_key}).mappings().fetchone()
+    if row is None:
         return None
-    ref = result.fetchall()[0]
-    print(ref)
-    return Reference(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5])
+    return _row_to_reference(row)
 
 def update_reference(reference: Reference, old_key):
-    sql=text("""
+    sql = text("""
         UPDATE latex_references
-        SET bibtex_key=:bibtex_key,
-            reference_type=:reference_type,
-            title=:title,
-            author=:author,
-            year=:year,
-            publisher=:publisher
-        WHERE bibtex_key=:old_key
-            """)
+        SET bibtex_key = :bibtex_key,
+            reference_type = :reference_type,
+            title = :title,
+            author = :author,
+            year = :year,
+            publisher = :publisher
+        WHERE bibtex_key = :old_key
+    """)
     try:
-        db.session.execute(sql, {
-            "bibtex_key": reference.key,
-            "reference_type": reference.type,
-            "title": reference.title,
-            "author": reference.author,
-            "year": reference.year,
-            "publisher": reference.publisher,
-            "old_key": old_key
-        })
+        db.session.execute(
+            sql,
+            {
+                "bibtex_key": reference.key,
+                "reference_type": reference.type,
+                "title": reference.title,
+                "author": reference.author,
+                "year": reference.year,
+                "publisher": reference.publisher,
+                "old_key": old_key,
+            },
+        )
         db.session.commit()
     except IntegrityError as e:
         db.session.rollback()
         raise ValueError(f"Reference with Bibtex key {reference.key} already exists.") from e
-
