@@ -44,7 +44,6 @@ def add_reference(reference: Reference):
     except IntegrityError as e:
         db.session.rollback()
         raise ValueError(f"Reference with Bibtex key {reference.key} already exists.") from e
-    
 
 def delete_reference(bibtex_key: str):
     sql = text("DELETE FROM latex_references WHERE bibtex_key = :bibtex_key")
