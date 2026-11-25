@@ -57,6 +57,7 @@
         <th scope="column">Year</th>
         <th scope="column">Publisher</th>
         <th scope="column"></th>
+        <th scope="column"></th>
       </tr>
     </thead>
     <tbody>
@@ -70,13 +71,13 @@
         <td class="truncate" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.year }}</td>
         <td class="truncate" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.publisher }}</td>
         <td>
+          <a href="/edit_reference/{{ ref.key }}">Edit</a>
+        </td>
+        <td>
           <form action="/delete_reference" , method="post" onsubmit="return confirm('Delete this reference?');">
             <input type="hidden" name="bibtex_key" value="{{ ref.key }}">
             <button type="submit">Delete</button>
           </form>
-        </td>
-        <td>
-          <a href="/edit_reference/{{ ref.key }}">Edit</a>
         </td>
       </tr>
       {% endfor %}
