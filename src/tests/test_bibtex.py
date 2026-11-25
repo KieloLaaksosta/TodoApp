@@ -1,7 +1,6 @@
 import unittest
 from entities.reference import Reference
-from repositories.bibtex_repository import generate_bibtex
-from utils import bibtex_proof
+from repositories.bibtex_repository import generate_bibtex, bibtex_proof
 
 class Test_bibtex(unittest.TestCase):
     def setUp(self):
