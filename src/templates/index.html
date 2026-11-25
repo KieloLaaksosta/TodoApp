@@ -34,6 +34,18 @@
       Generate BibTex
     </a>
   </div>
+
+  <form action="/" method="get">
+    <div class="form-field">
+      <input type="text" id="search" name="search" value="{{ search }}" maxlength="255">
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="submit-button">
+        Filter
+      </button>
+    </div>
+  </form>
+
   <table>
     <caption>Reference list</caption>
     <thead>
@@ -50,7 +62,8 @@
     <tbody>
       {% for ref in references %}
       <tr>
-        <th class="truncate" style="max-width:70" scope="row" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.key }}</th>
+        <th class="truncate" style="max-width:70" scope="row" onclick="window.location='/reference/{{ ref.key }}'">{{
+          ref.key }}</th>
         <td class="truncate" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.title }}</td>
         <td class="truncate" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.author }}</td>
         <td class="truncate" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.type }}</td>
