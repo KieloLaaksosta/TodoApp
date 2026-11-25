@@ -9,7 +9,6 @@ from config import app
 from repositories.reference_repository import (
     add_reference,
     delete_reference,
-    generate_bibtex,
     get_references,
     get_reference,
     update_reference
@@ -19,7 +18,8 @@ from entities.reference import (
     Reference,
     ReferenceValidationError
 )
-from utils import create_references_bib_file, current_year
+from repositories.bibtex_repository import generate_bibtex, create_references_bib_file
+from utils import current_year
 
 @app.route("/")
 def render_home():
