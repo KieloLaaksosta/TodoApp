@@ -56,6 +56,8 @@ h1 {
   justify-content: center;
 }
 
+/* For navigation bar and its button and effects */
+
 .nav-container {
   width: 75%;
   display: flex;
@@ -80,6 +82,10 @@ h1 {
   font-weight: 600;
 }
 
+.nav-button:hover {
+  background-color: var(--green);
+}
+
 .plus {
   display: inline-flex;
   align-items: center;
@@ -93,10 +99,6 @@ h1 {
   color: var(--darkgreen);
   font-size: 1.5rem;
   line-height: 1;
-}
-
-.nav-button:hover {
-  background-color: var(--green);
 }
 
 table {
