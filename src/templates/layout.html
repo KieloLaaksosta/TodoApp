@@ -8,7 +8,7 @@
 
 <body>
     <div class="header-container">
-    <h1>Reference helper</h1>
+        <h1>Reference helper</h1>
     </div>
 
     {% with messages = get_flashed_messages() %}
@@ -21,9 +21,40 @@
 
     <div class="content-wrapper">
 
-    {% block content %}{% endblock %}
+        {% block content %}{% endblock %}
 
     </div>
 </body>
+
+<script>
+    function scheduleFlashRemoval(root = document) {
+        root.querySelectorAll(".flash-message:not([data-flash-scheduled])").forEach((message) => {
+            message.dataset.flashScheduled = "true";
+            setTimeout(() => {
+                message.remove();
+            }, 3000);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        scheduleFlashRemoval();
+
+        const observer = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+                for (const node of mutation.addedNodes) {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        if (node.matches?.(".flash-message")) {
+                            scheduleFlashRemoval(node.parentElement || document);
+                        } else if (node.querySelectorAll) {
+                            scheduleFlashRemoval(node);
+                        }
+                    }
+                }
+            }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+    });
+</script>
 
 </html>
