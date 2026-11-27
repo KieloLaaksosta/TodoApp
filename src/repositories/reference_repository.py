@@ -50,6 +50,10 @@ def delete_reference(bibtex_key: str):
     db.session.execute(sql, {"bibtex_key": bibtex_key})
     db.session.commit()
 
+def format_like_pattern(search: str) -> str:
+    cleaned = " ".join(search.strip().split())
+    return f"%{cleaned.replace(' ', '%')}%"
+
 def search_references(search : str):
     sql = text(f"""
         {SELECT}
@@ -61,9 +65,7 @@ def search_references(search : str):
         OR CAST(year AS TEXT) LIKE :search
     """)
 
-    formated_search = search.strip().replace(" ", "%")
-    formated_search = f"%{formated_search}%"
-
+    formated_search = format_like_pattern(search)
     result = db.session.execute(sql, {"search": formated_search}).mappings().all()
 
     return [_row_to_reference(row) for row in result]
