@@ -56,7 +56,7 @@ h1 {
   justify-content: center;
 }
 
-/* For navigation bar and its button and effects */
+/* Navigation bar and its button and effects */
 
 .nav-container {
   width: 75%;
@@ -86,6 +86,7 @@ h1 {
   background-color: var(--green);
 }
 
+/* Plus symbol inside the navigation button */
 .plus {
   display: inline-flex;
   align-items: center;
@@ -100,6 +101,8 @@ h1 {
   font-size: 1.5rem;
   line-height: 1;
 }
+
+/* Table */
 
 table {
   width: 75%;
@@ -150,6 +153,8 @@ tbody tr:hover {
   background-color: var(--green);
 }
 
+/* Form and its fields */
+
 .form-container {
   width: 60%;
   max-width: 800px;
@@ -176,7 +181,7 @@ tbody tr:hover {
   font-weight: 600;
 }
 
-.form-field input,
+.form-field input, 
 .form-field select {
   font-size: var(--font-size-content);
   padding: 0.5rem;
@@ -192,6 +197,7 @@ tbody tr:hover {
   border-color: var(--green);
 }
 
+/* Used for actions like submit and cancel in form */
 .form-actions {
   display: flex;
   justify-content: center;
@@ -231,6 +237,7 @@ tbody tr:hover {
   background-color: var(--green);
 }
 
+/* Bibtex form */
 .bibtex-form {
   width: 50%;
   background-color: var(--lightgreen);
@@ -240,6 +247,7 @@ tbody tr:hover {
   margin: 2rem auto;
 }
 
+/* Flash message */
 .flash-message {
   width: 100%;
   max-width: 1800px;
@@ -258,34 +266,4 @@ tbody tr:hover {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.search-form {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: fit-content;
-  max-width: 100%;
-  margin: 1rem auto;
-}
-
-.search-form .form-field {
-  flex: 1;
-}
-
-.search-form input {
-  width: 220px;
-  padding: 0.45rem 0.75rem;
-  border-radius: 2rem;
-  font-size: var(--font-size-content);
-}
-
-.search-form .form-actions {
-  margin-top: 0;
-}
-
-.search-form .submit-button {
-  margin: 0;
-  padding: 0.45rem 1.1rem;
-  white-space: nowrap;
 }
