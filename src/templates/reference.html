@@ -4,49 +4,37 @@
 
 {% block content %}
 
-<script>
-  const flashMessages = document.querySelectorAll(".flash-message");
+  <div class="bibtex-form">
+  <dl>
 
-  flashMessages.forEach((message) => {
-    setTimeout(() => {
-      message.remove();
-    }, 3000);
-  });
-</script>
-
-<div class="content-wrapper">
-  <header>
-    <h1>{{ ref.title }}</h1>
-    <h2 style="text-align:center;">{{ ref.author }}</h2>
-  </header>
-
-  <dl class="bibtex-form">
-    <div>
-      <dt>Publisher</dt>
-      <dd>{{ ref.publisher }}</dd>
-    </div>
-    <div>
-      <dt>Year</dt>
-      <dd>{{ ref.year }}</dd>
-    </div>
-    <div>
-      <dt>Type</dt>
-      <dd>{{ ref.type }}</dd>
-    </div>
-    <div>
       <dt>Bibtex Key</dt>
       <dd><code>{{ ref.key }}</code></dd>
-    </div>
-  </dl>
 
-  <div style="text-align:center;">
-    <a href="/" class="nav-button">Go back</a>
-    <a href="/edit_reference/{{ ref.key }}" class="nav-button">Edit</a>
+      <dt>Title</dt>
+      <dd>{{ ref.title }}</dd>
+
+      <dt>Author</dt>
+      <dd>{{ ref.author }}</dd>
+
+      <dt>Publisher</dt>
+      <dd>{{ ref.publisher }}</dd>
+
+      <dt>Year</dt>
+      <dd>{{ ref.year }}</dd>
+
+      <dt>Type</dt>
+      <dd>{{ ref.type }}</dd>
+
+  </dl>
+  </div>
+
+  <div class="form-actions">
+    <a href="/" class="cancel-button">Go back</a>
+    <a href="/edit_reference/{{ ref.key }}" class="submit-button">Edit</a>
     <form action="/delete_reference" method="post" onsubmit="return confirm('Delete this reference?');">
       <input type="hidden" name="bibtex_key" value="{{ ref.key }}">
-      <button class="submit-button" type="submit">Delete</button>
+      <button class="cancel-button" type="submit">Delete</button>
     </form>
   </div>
-</div>
 
 {% endblock %}

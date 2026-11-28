@@ -297,3 +297,23 @@ tbody tr:hover {
   padding: 0.45rem 1.1rem;
   white-space: nowrap;
 }
+
+/* Description list */
+dl {
+  display: grid;
+  grid-gap: 1.5rem 5rem;
+  grid-template-columns: max-content
+}
+
+dt,dd {
+  font-size: var(--font-size-content);
+}
+
+dt {
+  font-weight: 600;
+}
+
+dd {
+  margin:0;
+  grid-column-start: 2;
+}
