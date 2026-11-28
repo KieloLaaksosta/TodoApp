@@ -51,12 +51,12 @@
       <td class="truncate" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.year }}</td>
       <td class="truncate" onclick="window.location='/reference/{{ ref.key }}'">{{ ref.publisher }}</td>
       <td>
-        <a href="/edit_reference/{{ ref.key }}">Edit</a>
+        <a href="/edit_reference/{{ ref.key }}" class="submit-button">Edit</a>
       </td>
       <td>
         <form action="/delete_reference" , method="post" onsubmit="return confirm('Delete this reference?');">
           <input type="hidden" name="bibtex_key" value="{{ ref.key }}">
-          <button type="submit">Delete</button>
+          <button type="submit" class="cancel-button">Delete</button>
         </form>
       </td>
     </tr>
